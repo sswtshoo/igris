@@ -12,10 +12,16 @@ function SignInContent() {
 
   const handleSignIn = async () => {
     try {
-      await signIn('spotify', {
+      const result = await signIn('spotify', {
         callbackUrl: '/songs',
-        redirect: true,
+        redirect: false,
       });
+
+      if (result?.error) {
+        console.error('Sign in error:', result.error);
+      } else if (result?.url) {
+        window.location.href = result.url;
+      }
     } catch (error) {
       console.error('Sign in error:', error);
     }
