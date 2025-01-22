@@ -4,9 +4,11 @@ import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
+import { useRouter } from 'next/router';
 
 export function Landing() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   if (session) {
     return (
@@ -17,6 +19,7 @@ export function Landing() {
           </h1>
           <p>You are logged in as {session.user?.name}</p>
           <motion.button
+            onClick={() => router.push('/songs')}
             initial={{
               backgroundColor: 'rgb(228, 228, 231)',
               color: 'rgb(24, 24, 27)',
@@ -35,7 +38,7 @@ export function Landing() {
             transition={{ duration: 0.15, ease: 'easeIn' }}
             className="border border-zinc-600 px-4 py-2 bg-zinc-200 rounded-md"
           >
-            <Link href={'/songs'}>Go to songs</Link>
+            Go to songs
           </motion.button>
         </div>
       </main>

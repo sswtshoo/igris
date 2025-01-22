@@ -19,7 +19,6 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.next();
   }
 
-  // Rest of your middleware logic
   if (!token && pathname !== '/signin') {
     return NextResponse.redirect(new URL('/signin', request.url));
   }
