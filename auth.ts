@@ -87,13 +87,26 @@ export const authOptions: NextAuthOptions = {
       }
     },
     async session({ session, token }) {
-      session.error = token.error;
-      session.accessToken = token.accessToken;
-      return session;
+      return {
+        ...session,
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+        expiresAt: token.accessTokenExpires,
+        error: token.error,
+      };
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) {
+        return `${baseUrl}${url}`;
+      } else if (new URL(url).origin === baseUrl) {
+        return url;
+      }
+      return baseUrl;
     },
   },
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {

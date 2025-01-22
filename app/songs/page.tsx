@@ -10,12 +10,19 @@ import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { motion } from 'motion/react';
 import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
 
 function SongsContent() {
-  const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') ?? '';
   const { playTrack, pauseTrack, currentSong, isPlaying } = useTrackAudio();
+
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/signin');
+    },
+  });
 
   const { data, error, isLoading } = useSWR(
     session?.accessToken ? `/api/spotify?q=${encodeURIComponent(query)}` : null,
