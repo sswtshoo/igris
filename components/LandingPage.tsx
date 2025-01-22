@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export function Landing() {
   const { data: session } = useSession();
