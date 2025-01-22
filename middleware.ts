@@ -6,32 +6,24 @@ export const middleware = async (request: NextRequest) => {
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
-    secureCookie: process.env.NEXTAUTH_URL?.startsWith('https://') ?? false,
-  });
-
-  console.log('Middleware Details:', {
-    path: request.nextUrl.pathname,
-    hasToken: !!token,
-    hasAccessToken: token ? !!token.accessToken : false,
   });
 
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith('/api/auth')) {
+  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/')) {
     return NextResponse.next();
   }
 
-  if (!token?.accessToken) {
-    if (pathname !== '/signin') {
-      console.log('No valid token, redirecting to signin');
-      return NextResponse.redirect(new URL('/signin', request.url));
-    }
-    return NextResponse.next();
+  if (token?.accessToken && pathname === '/signin') {
+    const response = NextResponse.redirect(new URL('/songs', request.url));
+    response.headers.set('Cache-Control', 'no-store, must-revalidate');
+    return response;
   }
 
-  if (token.accessToken && pathname === '/signin') {
-    console.log('Valid token on signin, redirecting to songs');
-    return NextResponse.redirect(new URL('/songs', request.url));
+  if (!token?.accessToken && pathname !== '/signin') {
+    const response = NextResponse.redirect(new URL('/signin', request.url));
+    response.headers.set('Cache-Control', 'no-store, must-revalidate');
+    return response;
   }
 
   return NextResponse.next();

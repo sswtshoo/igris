@@ -39,11 +39,10 @@ function SignInContent() {
   };
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      console.log('Redirecting to /songs because session exists');
-      router.push('/songs');
+    if (session?.accessToken) {
+      window.location.href = '/songs';
     }
-  }, [status, router]);
+  }, [session]);
 
   return (
     <div className="flex flex-col gap-4 items-center">
