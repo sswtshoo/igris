@@ -4,6 +4,7 @@ import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { Play, Pause, SkipForward, SkipBack } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function Player() {
   const {
@@ -17,6 +18,9 @@ export default function Player() {
     previousTrack,
   } = useTrackAudio();
   const [isExpanded, setIsExpanded] = useState(false);
+  const { data: session } = useSession();
+
+  if (!session) return null;
 
   if (!currentSong) return null;
 

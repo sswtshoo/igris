@@ -1,14 +1,17 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Loader from '@/components/ui/loader';
 import { motion } from 'motion/react';
+import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
 
 function SignInContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
+  const { data: session, status } = useSession();
 
   const handleSignIn = async () => {
     try {
@@ -26,6 +29,12 @@ function SignInContent() {
       console.error('Sign in error:', error);
     }
   };
+
+  useEffect(() => {
+    if (session) {
+      redirect('/songs');
+    }
+  }, [session]);
 
   return (
     <div className="flex flex-col gap-4 items-center">
