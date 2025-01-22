@@ -7,23 +7,27 @@ export const middleware = async (request: NextRequest) => {
 
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith('/api/auth')) {
+  if (
+    pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/_next') ||
+    pathname === '/favicon.ico'
+  ) {
     return NextResponse.next();
   }
 
   if (!token && pathname !== '/signin') {
-    const url = new URL('/signin', request.url);
-    return NextResponse.redirect(url);
+    const signInUrl = new URL('/signin', request.url);
+    return NextResponse.redirect(signInUrl);
   }
 
   if (token && pathname === '/signin') {
-    const url = new URL('/songs', request.url);
-    return NextResponse.redirect(url);
+    const songsUrl = new URL('/songs', request.url);
+    return NextResponse.redirect(songsUrl);
   }
 
   return NextResponse.next();
 };
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!api/auth|_next/static|_next/image|favicon.ico).*)'],
 };
