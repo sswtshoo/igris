@@ -19,9 +19,6 @@ function SongsContent() {
 
   const { data: session, status } = useSession({
     required: true,
-    onUnauthenticated() {
-      redirect('/signin');
-    },
   });
 
   const { data, error, isLoading } = useSWR(
