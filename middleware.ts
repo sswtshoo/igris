@@ -17,7 +17,7 @@ export const middleware = async (request: NextRequest) => {
   }
 
   if (token && pathname === '/signin') {
-    const url = new URL('/', request.url);
+    const url = new URL('/songs', request.url);
     return NextResponse.redirect(url);
   }
 
