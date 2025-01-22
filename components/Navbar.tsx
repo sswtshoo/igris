@@ -1,6 +1,5 @@
 'use client';
 import { useSession, signOut } from 'next-auth/react';
-import Link from 'next/link';
 import { SignOut } from '@phosphor-icons/react';
 
 export default function Navbar() {

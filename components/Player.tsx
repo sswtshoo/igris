@@ -9,10 +9,10 @@ export default function Player() {
   const {
     currentSong,
     isPlaying,
-    seek,
+
     pauseTrack,
     playTrack,
-    trackProgress,
+
     nextTrack,
     previousTrack,
   } = useTrackAudio();

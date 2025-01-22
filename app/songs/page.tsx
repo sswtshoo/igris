@@ -9,8 +9,9 @@ import { useEffect } from 'react';
 import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { motion } from 'motion/react';
+import { Suspense } from 'react';
 
-export default function Songs() {
+function SongsContent() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const query = searchParams.get('q') ?? '';
@@ -104,5 +105,13 @@ export default function Songs() {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function Songs() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <SongsContent />
+    </Suspense>
   );
 }
