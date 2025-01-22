@@ -10,21 +10,16 @@ export const middleware = async (request: NextRequest) => {
 
   const { pathname } = request.nextUrl;
 
-  if (
-    pathname === '/' ||
-    pathname.startsWith('/api/') ||
-    pathname.startsWith('/_next/') ||
-    pathname === '/favicon.ico'
-  ) {
+  if (pathname.startsWith('/api/')) {
     return NextResponse.next();
-  }
-
-  if (!token && pathname !== '/signin') {
-    return NextResponse.redirect(new URL('/signin', request.url));
   }
 
   if (token && pathname === '/signin') {
     return NextResponse.redirect(new URL('/songs', request.url));
+  }
+
+  if (!token && pathname !== '/signin') {
+    return NextResponse.redirect(new URL('/signin', request.url));
   }
 
   return NextResponse.next();
