@@ -124,14 +124,34 @@ export const TrackAudioProvider = ({
         setIsReady(false);
       });
 
-      player.addListener('player_state_changed', (state) => {
+      player.addListener('player_state_changed', async (state) => {
         if (!state) return;
+
         setCurrentSong(state.track_window.current_track);
         setIsPlaying(!state.paused);
         setTrackProgress(state.position);
 
-        if (state.position === 0 && state.paused) {
-          nextTrack();
+        try {
+          const response = await fetch(
+            'https://api.spotify.com/v1/me/player/queue',
+            {
+              headers: {
+                Authorization: `Bearer ${session?.accessToken}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const queueData = await response.json();
+            if (queueData.queue && Array.isArray(queueData.queue)) {
+              const currentTrack = state.track_window.current_track;
+              const allTracks = [currentTrack, ...queueData.queue];
+              setQueue(allTracks);
+              setCurrentIndex(0);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching queue:', error);
         }
       });
 
@@ -219,20 +239,31 @@ export const TrackAudioProvider = ({
     setIsPlaying(false);
   }, [player]);
 
-  const nextTrack = useCallback(() => {
-    if (currentIndex < queue.length - 1) {
-      const nextTrack = queue[currentIndex + 1];
-      playTrack(nextTrack, queue);
+  const nextTrack = useCallback(async () => {
+    try {
+      await fetch('https://api.spotify.com/v1/me/player/next', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      });
+    } catch (error) {
+      console.error('Error skipping to next track:', error);
     }
-  }, [currentIndex, queue, playTrack]);
+  }, [session?.accessToken]);
 
-  const previousTrack = useCallback(() => {
-    if (currentIndex > 0) {
-      const prevTrack = queue[currentIndex - 1];
-      playTrack(prevTrack, queue);
+  const previousTrack = useCallback(async () => {
+    try {
+      await fetch('https://api.spotify.com/v1/me/player/previous', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      });
+    } catch (error) {
+      console.error('Error going to previous track:', error);
     }
-  }, [currentIndex, queue, playTrack]);
-
+  }, [session?.accessToken]);
   const seek = useCallback(
     async (position: number) => {
       if (!player) return;

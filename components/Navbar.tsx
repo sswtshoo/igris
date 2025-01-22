@@ -8,7 +8,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 right-0 left-0 h-16 bg-zinc-950 border-b-[1px] border-zinc-200 border-opacity-25 shadow-zinc-200 backdrop-blur-2xl bg-opacity-25 z-50">
-      <div className="mx-auto px-12 sm:px-6 lg:px-4">
+      <div className="mx-auto px-12 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center ml-4">
           {session && (
             <div className="flex items-center mr-4 gap-x-2">

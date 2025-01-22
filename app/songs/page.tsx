@@ -66,7 +66,9 @@ export default function Songs() {
   const songs: Track[] = data?.tracks || [];
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-medium mb-6">Your Songs</h1>
+      <h1 className="text-2xl font-medium mb-6 text-zinc-100 ml-6">
+        Liked Songs
+      </h1>
 
       <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
         {songs.map((song) => (
@@ -86,7 +88,7 @@ export default function Songs() {
                 <img
                   src={song.album.images[0].url}
                   alt={song.name}
-                  className="w-auto max-w-72 rounded-md object-cover aspect-square shadow-xl"
+                  className="w-auto max-w-64 rounded-md object-cover aspect-square shadow-xl"
                 />
               )}
               <div className="flex flex-col min-w-0 max-w-full">
