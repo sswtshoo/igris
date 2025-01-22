@@ -14,6 +14,13 @@ function SignInContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  console.log('Auth State:', {
+    session,
+    status,
+    error: searchParams.get('error'),
+    callbackUrl: searchParams.get('callbackUrl'),
+  });
+
   const handleSignIn = async () => {
     try {
       const result = await signIn('spotify', {
