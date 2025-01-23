@@ -38,7 +38,7 @@ export async function GET(request: Request) {
 
     const numberofReq = Math.ceil(total / 50) - 1;
     for (let i = 1; i <= numberofReq; i++) {
-      let response = await fetch(
+      const response = await fetch(
         `https://api.spotify.com/v1/me/tracks?limit=50&offset=${i * 50}`,
         {
           headers: {
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
         continue;
       }
 
-      let data = await response.json();
+      const data = await response.json();
       tracks = tracks.concat(data.items.map((item: any) => item.track));
     }
 
