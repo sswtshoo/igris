@@ -47,7 +47,7 @@ function SignInContent() {
 
   return (
     <div className="flex flex-col gap-4 items-center">
-      <h1 className="text-2xl font-bold text-center text-zinc-200">
+      <h1 className="text-2xl font-bold text-center text-zinc-700">
         Igris for Spotify
       </h1>
       {error && (

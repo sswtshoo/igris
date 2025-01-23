@@ -31,8 +31,31 @@ export async function GET(request: Request) {
       );
     }
 
-    const data = await response.json();
-    const tracks = data.items.map((item: any) => item.track);
+    const initialData = await response.json();
+
+    const total = initialData.total;
+    let tracks = initialData.items.map((item: any) => item.track);
+
+    const numberofReq = Math.ceil(total / 50) - 1;
+    for (let i = 1; i <= numberofReq; i++) {
+      let response = await fetch(
+        `https://api.spotify.com/v1/me/tracks?limit=50&offset=${i * 50}`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`Failed to fetch page ${i}`);
+        continue;
+      }
+
+      let data = await response.json();
+      tracks = tracks.concat(data.items.map((item: any) => item.track));
+    }
 
     return NextResponse.json({ tracks });
   } catch (error) {

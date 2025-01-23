@@ -70,37 +70,38 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-medium mb-6 text-zinc-100 ml-6">
+    <div className="px-8 py-6 max-w-[1320px] mx-auto w-full">
+      <h1 className="text-3xl font-semibold mb-4 text-zinc-700 ml-4">
         Liked Songs
       </h1>
 
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 place-items-center mb-8">
         {songs.map((song) => (
           <motion.div
             key={song.id}
             onClick={() => handlePlay(song)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95, rotate: '-2.5deg' }}
+            whileTap={{ scale: 0.95, rotate: '15deg' }}
             transition={{
-              duration: 0.2,
-              ease: 'easeIn',
+              duration: 0.3,
+              type: 'spring',
+              stiffness: 300,
+              damping: 20,
             }}
-            className="p-4 rounded-lg cursor-pointer transiton"
+            className="p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
                 <img
                   src={song.album.images[0].url}
                   alt={song.name}
-                  className="w-auto max-w-64 rounded-md object-cover aspect-square shadow-xl"
+                  className="w-auto max-w-56 rounded-md object-cover aspect-square shadow-xl"
                 />
               )}
               <div className="flex flex-col min-w-0 max-w-full">
-                <h2 className="font-semibold text-sm truncate text-zinc-100">
+                <h2 className="font-semibold text-sm truncate text-zinc-800">
                   {song.name}
                 </h2>
-                <p className="text-sm text-zinc-200 truncate">
+                <p className="text-sm text-zinc-700 truncate">
                   {song.artists.map((artist) => artist.name).join(', ')}
                 </p>
               </div>

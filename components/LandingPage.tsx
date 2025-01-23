@@ -12,7 +12,7 @@ export function Landing() {
     return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-6 text-zinc-100">
+          <h1 className="text-4xl font-bold mb-6 text-zinc-800">
             Welcome to Igris
           </h1>
           <p>You are logged in as {session.user?.name}</p>

@@ -8,19 +8,19 @@ export default function Navbar() {
   if (!session) return null;
 
   return (
-    <nav className="fixed top-0 right-0 left-0 h-16 bg-zinc-950 border-b-[1px] border-zinc-200 border-opacity-25 shadow-zinc-200 backdrop-blur-2xl bg-opacity-25 z-50">
-      <div className="mx-auto px-12 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center ml-4">
+    <nav className="fixed top-0 right-0 left-0 h-16 bg-zinc-200  border-opacity-25 shadow-zinc-200 bg-opacity-0 z-50">
+      <div className="px-4 h-full">
+        <div className=" flex h-full items-center justify-end">
           {session && (
-            <div className="flex items-center mr-4 gap-x-2">
-              <span className="text-sm text-zinc-300 font-medium cursor-default">
+            <div className="flex items-center right-8 gap-x-1 rounded-full bg-zinc-200 px-2 py-1 hover:scale-105 duration-200">
+              <span className="text-sm text-zinc-500 font-medium cursor-default">
                 {session.user?.name}
               </span>
               <button
                 onClick={() => signOut({ callbackUrl: '/signin' })}
-                className="text-sm rounded-md hover:text-zinc-900 transition-colors"
+                className="text-xs rounded-md hover:text-zinc-900 transition-colors"
               >
-                <SignOut className="text-zinc-300" size={15} weight="fill" />
+                <SignOut className="text-zinc-500" size={12} weight="fill" />
               </button>
             </div>
           )}

@@ -19,7 +19,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className="bg-zinc-950">
+      <body suppressHydrationWarning className="bg-zinc-100">
         <Providers>
           <Navbar />
           <main className="pt-16">{children}</main>
