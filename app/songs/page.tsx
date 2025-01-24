@@ -21,13 +21,39 @@ function SongsContent() {
     required: true,
   });
 
+  // useEffect(() => {
+  //   const lenis = new Lenis();
+  //   const raf = (time: any) => {
+  //     lenis.raf(time);
+  //     requestAnimationFrame(raf);
+  //   };
+  //   requestAnimationFrame(raf);
+  // }, []);
+
   useEffect(() => {
-    const lenis = new Lenis();
-    const raf = (time: any) => {
+    if (typeof window === 'undefined') return;
+
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
+
+    function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
+    }
+
+    const rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy;
     };
-    requestAnimationFrame(raf);
   }, []);
 
   const { data, error, isLoading } = useSWR(
@@ -104,6 +130,7 @@ function SongsContent() {
                   src={song.album.images[0].url}
                   alt={song.name}
                   className="w-auto max-w-56 rounded-md object-cover aspect-square shadow-xl"
+                  loading="eager"
                 />
               )}
               <div className="flex flex-col min-w-0 max-w-full">
