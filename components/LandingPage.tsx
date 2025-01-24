@@ -54,8 +54,8 @@ export function Landing() {
         <motion.button
           onClick={() => signIn('spotify')}
           initial={{
-            backgroundColor: 'rgb(228, 228, 231)',
-            color: 'rgb(24, 24, 27)',
+            backgroundColor: 'rgb(255, 255, 255)',
+            color: 'rgb(82, 82, 91)',
           }}
           whileHover={{
             backgroundColor: 'rgb(24, 24, 27)',
@@ -66,7 +66,7 @@ export function Landing() {
             backgroundColor: 'rgb(24, 24, 27)',
             color: 'rgb(228, 228, 231)',
             scale: 0.95,
-            rotate: '15deg',
+            rotate: '5deg',
           }}
           transition={{
             duration: 0.1,

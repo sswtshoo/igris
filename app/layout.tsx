@@ -16,7 +16,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className="bg-zinc-100">
+      <body suppressHydrationWarning className="bg-white">
         <Providers>
           <Navbar />
           <main className="min-h-screen">{children}</main>
