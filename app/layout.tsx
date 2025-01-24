@@ -3,8 +3,6 @@ import { Providers } from '@/components/Providers';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Player from '@/components/Player';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/auth';
 
 export const metadata: Metadata = {
   title: 'igris',
@@ -16,13 +14,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning className="bg-zinc-100">
         <Providers>
           <Navbar />
-          <main className="pt-16">{children}</main>
+          <main className="min-h-screen">{children}</main>
           <Player />
         </Providers>
       </body>

@@ -10,7 +10,7 @@ import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { motion } from 'motion/react';
 import { Suspense } from 'react';
-import { redirect } from 'next/navigation';
+import Lenis from 'lenis';
 
 function SongsContent() {
   const searchParams = useSearchParams();
@@ -20,6 +20,15 @@ function SongsContent() {
   const { data: session, status } = useSession({
     required: true,
   });
+
+  useEffect(() => {
+    const lenis = new Lenis();
+    const raf = (time: any) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+  }, []);
 
   const { data, error, isLoading } = useSWR(
     session?.accessToken ? `/api/spotify?q=${encodeURIComponent(query)}` : null,
@@ -70,7 +79,7 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-8 py-6 max-w-[1320px] mx-auto w-full">
+    <div className="px-8 py-6 max-w-[1320px] mx-auto w-full mt-16">
       <h1 className="text-3xl font-semibold mb-4 text-zinc-700 ml-4">
         Liked Songs
       </h1>

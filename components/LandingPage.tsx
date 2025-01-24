@@ -10,12 +10,10 @@ export function Landing() {
 
   if (session) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="flex h-screen flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-6 text-zinc-800">
-            Welcome to Igris
-          </h1>
-          <p>You are logged in as {session.user?.name}</p>
+          <h1 className="text-4xl font-bold text-zinc-800">Welcome to Igris</h1>
+          <p className="mb-4">You are logged in as {session.user?.name}</p>
           <motion.button
             initial={{
               backgroundColor: 'rgb(228, 228, 231)',
@@ -32,8 +30,13 @@ export function Landing() {
               scale: 0.95,
               rotate: '5deg',
             }}
-            transition={{ duration: 0.15, ease: 'easeIn' }}
-            className="border border-zinc-600 px-4 py-2 bg-zinc-200 rounded-md"
+            transition={{
+              duration: 0.1,
+              type: 'spring',
+              stiffness: 300,
+              damping: 20,
+            }}
+            className="border-2 border-opacity-5 border-zinc-800 px-4 py-2 bg-zinc-100 rounded-md"
           >
             <Link href={'/songs'}>Go to songs</Link>
           </motion.button>
@@ -43,9 +46,9 @@ export function Landing() {
   }
 
   return (
-    <main className="flex min-h-screen min-w-screen flex-col items-center justify-between p-24">
+    <main className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-6 text-zinc-100">
+        <h1 className="text-4xl font-bold mb-6 text-zinc-700">
           Welcome to Igris
         </h1>
         <motion.button
@@ -63,10 +66,15 @@ export function Landing() {
             backgroundColor: 'rgb(24, 24, 27)',
             color: 'rgb(228, 228, 231)',
             scale: 0.95,
-            rotate: '5deg',
+            rotate: '15deg',
           }}
-          transition={{ duration: 0.15, ease: 'easeIn' }}
-          className="px-6 py-3 rounded-md text-white transition-colors"
+          transition={{
+            duration: 0.1,
+            type: 'spring',
+            stiffness: 300,
+            damping: 20,
+          }}
+          className="px-6 py-3 rounded-md text-zinc-900 bg-zinc-100 transition-colors border-2 border-zinc-800 border-opacity-25"
         >
           Sign in with Spotify
         </motion.button>

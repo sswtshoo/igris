@@ -78,90 +78,92 @@ export default function Player() {
       width: 0,
       marginLeft: 0,
       transition: {
-        duration: 0.3,
-        ease: 'easeIn',
+        duration: 0.1,
+        ease: 'easeOut',
       },
     },
   };
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-20">
-      <motion.div
-        className="px-2 py-2 bg-white border-[1px] border-opacity-25 border-zinc-800 backdrop-blur-2xl rounded-md flex flex-row items-center gap-x-4 justify-center cursor-default"
-        variants={containerVariants}
-        initial="collapsed"
-        animate={isExpanded ? 'expanded' : 'collapsed'}
-        onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={() => setIsExpanded(false)}
-        layout
-      >
-        <motion.div className="flex items-center justify-end gap-x-4" layout>
-          <img
-            src={currentSong.album.images[0]?.url}
-            alt={currentSong.name}
-            className="h-8 rounded-sm aspect-square mr-0 object-cover"
-          />
-          <motion.div
-            className="track-details max-w-48 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
-            layout
-          >
-            <motion.h2
-              className="text-sm font-semibold text-zinc-800 truncate"
-              layout
-            >
-              {currentSong.name}
-            </motion.h2>
-            <motion.p
-              className="text-xs text-zinc-800 font-normal truncate max-w-full"
-              layout
-            >
-              {currentSong.artists.map((artist) => artist.name).join(', ')}
-            </motion.p>
-          </motion.div>
-        </motion.div>
-
-        <AnimatePresence mode="popLayout">
-          {isExpanded && (
+      <div className="px-4 py-6">
+        <motion.div
+          className="px-2 py-2 bg-zinc-100 backdrop-blur-2xl border-2 border-opacity-5 border-zinc-800 rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
+          variants={containerVariants}
+          initial="collapsed"
+          animate={isExpanded ? 'expanded' : 'collapsed'}
+          onMouseEnter={() => setIsExpanded(true)}
+          onMouseLeave={() => setIsExpanded(false)}
+          layout
+        >
+          <motion.div className="flex items-center justify-end gap-x-2" layout>
+            <img
+              src={currentSong.album.images[0]?.url}
+              alt={currentSong.name}
+              className="h-10 rounded-[0.250rem] aspect-square mr-0 object-cover"
+            />
             <motion.div
-              className="flex items-center justify-center gap-2"
-              variants={controlsVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
+              className="track-details max-w-64 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
               layout
             >
-              <SkipBack
-                size={16}
-                className="text-zinc-700 hover:scale-110 transition duration-200"
-                onClick={previousTrack}
-                weight="fill"
-              />
-              <button onClick={handlePlayPause}>
-                {isPlaying ? (
-                  <Pause
-                    size={20}
-                    className="text-zinc-700 hover:scale-110 transition duration-200"
-                    weight="fill"
-                  />
-                ) : (
-                  <Play
-                    size={20}
-                    className="text-zinc-700 hover:scale-110 transition duration-200"
-                    weight="fill"
-                  />
-                )}
-              </button>
-
-              <SkipForward
-                size={16}
-                className="text-zinc-700 hover:scale-110 transition duration-200"
-                onClick={() => nextTrack()}
-                weight="fill"
-              />
+              <motion.h2
+                className="text-base font-semibold text-zinc-800 truncate"
+                layout
+              >
+                {currentSong.name}
+              </motion.h2>
+              <motion.p
+                className="text-xs text-zinc-800 font-normal truncate max-w-full"
+                layout
+              >
+                {currentSong.artists.map((artist) => artist.name).join(', ')}
+              </motion.p>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+          </motion.div>
+
+          <AnimatePresence mode="popLayout">
+            {isExpanded && (
+              <motion.div
+                className="flex items-center justify-center gap-2"
+                variants={controlsVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                layout
+              >
+                <SkipBack
+                  size={16}
+                  className="text-zinc-700 hover:scale-110 transition duration-200"
+                  onClick={previousTrack}
+                  weight="fill"
+                />
+                <button onClick={handlePlayPause}>
+                  {isPlaying ? (
+                    <Pause
+                      size={20}
+                      className="text-zinc-700 hover:scale-110 transition duration-200"
+                      weight="fill"
+                    />
+                  ) : (
+                    <Play
+                      size={20}
+                      className="text-zinc-700 hover:scale-110 transition duration-200"
+                      weight="fill"
+                    />
+                  )}
+                </button>
+
+                <SkipForward
+                  size={16}
+                  className="text-zinc-700 hover:scale-110 transition duration-200"
+                  onClick={() => nextTrack()}
+                  weight="fill"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
     </div>
   );
 }

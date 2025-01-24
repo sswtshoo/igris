@@ -193,7 +193,6 @@ export const TrackAudioProvider = ({
 
       try {
         if (track) {
-          // If a new track is provided, play it from the queue
           const trackIndex = tracks.findIndex((t) => t.id === track.id);
           if (trackIndex !== -1) {
             setQueue(tracks);
