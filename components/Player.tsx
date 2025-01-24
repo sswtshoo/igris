@@ -96,14 +96,17 @@ export default function Player() {
           onMouseLeave={() => setIsExpanded(false)}
           layout
         >
-          <motion.div className="flex items-center justify-end gap-x-2" layout>
+          <motion.div
+            className="flex items-center justify-end gap-x-2 w-fit"
+            layout
+          >
             <img
               src={currentSong.album.images[0]?.url}
               alt={currentSong.name}
               className="sm:h-10 h-8 rounded-[0.250rem] aspect-square mr-0 object-cover"
             />
             <motion.div
-              className="track-details max-w-48 sm:max-w-64 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
+              className="track-details max-w-52 sm:max-w-64 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
               layout
             >
               <motion.h2
