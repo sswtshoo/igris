@@ -46,8 +46,8 @@ export default function Player() {
       width: 'auto',
       transition: {
         type: 'spring',
-        stiffness: 300,
-        damping: 25,
+        stiffness: 1000,
+        damping: 50,
         when: 'beforeChildren',
         duration: 0.2,
       },
@@ -88,7 +88,7 @@ export default function Player() {
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-20">
       <div className="px-4 py-6">
         <motion.div
-          className="px-2 py-2 bg-zinc-100 backdrop-blur-2xl border-2 border-opacity-5 border-zinc-800 rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
+          className="px-2 py-2 bg-zinc-100 backdrop-blur-2xl border-2 border-opacity-5 border-zinc-800 shadow-md shadow-zinc-400 rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}

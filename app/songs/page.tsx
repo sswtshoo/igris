@@ -105,12 +105,12 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-8 py-6 max-w-[1320px] mx-auto w-full mt-16">
+    <div className="px-8 py-6 max-w-[1320px] mx-auto w-full mt-20">
       <h1 className="text-3xl font-semibold mb-4 text-zinc-700 ml-4">
         Liked Songs
       </h1>
 
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 place-items-center mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 place-items-center mb-8">
         {songs.map((song) => (
           <motion.div
             key={song.id}
