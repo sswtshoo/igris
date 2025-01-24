@@ -105,12 +105,12 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-8 py-6 max-w-[1320px] mx-auto w-full mt-20">
+    <div className="px-4 sm:px-8 py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
       <h1 className="text-3xl font-semibold mb-4 text-zinc-700 ml-4">
         Liked Songs
       </h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 place-items-center mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
         {songs.map((song) => (
           <motion.div
             key={song.id}
@@ -122,14 +122,14 @@ function SongsContent() {
               stiffness: 300,
               damping: 20,
             }}
-            className="p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
                 <img
                   src={song.album.images[0].url}
                   alt={song.name}
-                  className="w-auto max-w-56 rounded-md object-cover aspect-square shadow-xl"
+                  className="w-full h-full rounded-md object-cover aspect-square shadow-xl"
                   loading="eager"
                 />
               )}
@@ -137,7 +137,7 @@ function SongsContent() {
                 <h2 className="font-semibold text-sm truncate text-zinc-800">
                   {song.name}
                 </h2>
-                <p className="text-sm text-zinc-700 truncate">
+                <p className="text-sm text-zinc-600 truncate">
                   {song.artists.map((artist) => artist.name).join(', ')}
                 </p>
               </div>
