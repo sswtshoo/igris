@@ -121,10 +121,10 @@ export default function Player() {
             </motion.div>
           </motion.div>
 
-          <div className="flex sm:hidden items-center justify-center gap-2">
+          <div className="flex sm:hidden items-center justify-center gap-2 text-zinc-500">
             <SkipBack
               size={16}
-              className="text-zinc-700 active:scale-90 transition"
+              className="active:scale-90 transition"
               onClick={previousTrack}
               weight="fill"
             />
@@ -132,20 +132,20 @@ export default function Player() {
               {isPlaying ? (
                 <Pause
                   size={20}
-                  className="text-zinc-700 active:scale-90 transition"
+                  className=" active:scale-90 transition"
                   weight="fill"
                 />
               ) : (
                 <Play
                   size={20}
-                  className="text-zinc-700 active:scale-90 transition"
+                  className="active:scale-90 transition"
                   weight="fill"
                 />
               )}
             </button>
             <SkipForward
               size={16}
-              className="text-zinc-700 active:scale-90 transition"
+              className="active:scale-90 transition"
               onClick={() => nextTrack()}
               weight="fill"
             />

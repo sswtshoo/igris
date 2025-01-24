@@ -16,6 +16,15 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/CabinetGrotesk-Variable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body suppressHydrationWarning className="bg-white">
         <Providers>
           <Navbar />

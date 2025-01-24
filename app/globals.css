@@ -8,15 +8,20 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'Switzer-Variable', sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: 'Switzer-Variable', sans-serif;
+  }
 }
 
 @font-face {
   font-family: 'Switzer-Variable';
   src:
-    url('../components/ui/fonts/Switzer-Variable.woff2') format('.woff2'),
-    url('../components/ui/fonts/Switzer-Variable.woff') format('.woff'),
-    url('../components/ui/fonts/Switzer-Variable.ttf') format('.ttf');
+    url('../public/fonts/Switzer-Variable.woff2') format('.woff2'),
+    url('../public/fonts/Switzer-Variable.woff') format('.woff'),
+    url('../public/fonts/Switzer-Variable.ttf') format('.ttf');
   font-display: swap;
   font-style: normal;
 }

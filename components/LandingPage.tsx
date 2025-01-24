@@ -16,7 +16,7 @@ export function Landing() {
           <p className="mb-4">You are logged in as {session.user?.name}</p>
           <motion.button
             initial={{
-              backgroundColor: 'rgb(228, 228, 231)',
+              backgroundColor: 'rgb(255, 255, 255)',
               color: 'rgb(24, 24, 27)',
             }}
             whileHover={{
@@ -36,7 +36,7 @@ export function Landing() {
               stiffness: 300,
               damping: 20,
             }}
-            className="border-2 border-opacity-5 border-zinc-800 px-4 py-2 bg-zinc-100 rounded-md"
+            className="border-[1px] border-opacity-25 border-zinc-500 px-4 py-2 bg-white rounded-md"
           >
             <Link href={'/songs'}>Go to songs</Link>
           </motion.button>
