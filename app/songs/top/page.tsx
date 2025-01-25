@@ -74,7 +74,7 @@ function TopSongsContent() {
 
   return (
     <div className="px-4 sm:px-8 py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex sm:flex-row flex-col items-center justify-between mb-6">
         <div className="flex items-center gap-4 mb-4">
           <h1 className="text-3xl font-semibold text-zinc-950 ml-4">
             Top Songs
