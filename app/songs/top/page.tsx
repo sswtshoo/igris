@@ -1,26 +1,30 @@
 'use client';
 
-import { type Track } from '@/types/spotify';
 import { useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
 import { fetcher } from '@/utils/fetcher';
 import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { motion } from 'motion/react';
 import { Suspense } from 'react';
-import Lenis from 'lenis';
+import Loader from '@/components/ui/loader';
+import { type Track } from '@/types/spotify';
 import Link from 'next/link';
+import Lenis from 'lenis';
+import { useEffect } from 'react';
 
-function SongsContent() {
+function TopSongsContent() {
   const searchParams = useSearchParams();
-  const query = searchParams.get('q') ?? '';
-  const { playTrack, pauseTrack, currentSong, isPlaying } = useTrackAudio();
+  const timeRange = searchParams.get('range') ?? 'short_term';
 
-  const { data: session, status } = useSession({
-    required: true,
-  });
+  const { playTrack, isPlaying, pauseTrack, currentSong } = useTrackAudio();
+  const { data: session } = useSession({ required: true });
+
+  const { data, error, isLoading } = useSWR(
+    session?.accessToken ? `/api/spotify/top?range=${timeRange}` : null,
+    fetcher,
+    { revalidateOnFocus: false }
+  );
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -48,14 +52,9 @@ function SongsContent() {
     };
   }, []);
 
-  const { data, error, isLoading } = useSWR(
-    session?.accessToken ? `/api/spotify?q=${encodeURIComponent(query)}` : null,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      shouldRetryOnError: false,
-    }
-  );
+  if (isLoading) return <Loader />;
+  if (error)
+    return <div className="text-red-500">Error loading top tracks</div>;
 
   const handlePlay = (track: Track) => {
     if (currentSong?.id === track.id && isPlaying) {
@@ -65,49 +64,47 @@ function SongsContent() {
     }
   };
 
-  useEffect(() => {
-    if (error) {
-      console.error('Error fetching songs', error);
-    }
-  }, [error]);
-
-  if (status === 'loading') {
-    return <Loader />;
-  }
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return (
-      <div className="p-6 text-center">
-        <p className="text-red-500 mb-2">
-          {error.message || 'Error loading songs'}
-        </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="text-sm text-zinc-400 hover:text-zinc-300"
-        >
-          Try again
-        </button>
-      </div>
-    );
-  }
+  const timeRanges = [
+    { value: 'short_term', label: '4 Weeks' },
+    { value: 'medium_term', label: '6 Months' },
+    { value: 'long_term', label: '1 Year' },
+  ];
 
   const songs: Track[] = data?.tracks || [];
+
   return (
     <div className="px-4 sm:px-8 py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex items-center gap-4 mb-4">
-        <h1 className="text-3xl font-semibold text-zinc-950 ml-4">
-          Liked Songs
-        </h1>
-        <Link href="/songs/top" className="text-zinc-600 hover:text-zinc-800">
-          View Top Songs →
-        </Link>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-4 mb-4">
+          <h1 className="text-3xl font-semibold text-zinc-950 ml-4">
+            Top Songs
+          </h1>
+          <Link href="/songs" className="text-zinc-600 hover:text-zinc-800">
+            ← View Liked Songs
+          </Link>
+        </div>
+        <div className="flex items-center gap-4 px-2 py-1 mr-4 bg-white shadow-lg shadow-zinc-200 border-[1px] border-zinc-800 border-opacity-5 rounded-lg">
+          {timeRanges.map((range) => (
+            <button
+              key={range.value}
+              onClick={() => {
+                const url = new URL(window.location.href);
+                url.searchParams.set('range', range.value);
+                window.history.pushState({}, '', url);
+              }}
+              className={`px-2 py-1 font-medium text-sm rounded-md transition-all ${
+                timeRange === range.value
+                  ? 'bg-zinc-950 text-zinc-100'
+                  : 'hover:bg-zinc-800/5 text-zinc-600'
+              }`}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-16">
         {songs.map((song) => (
           <motion.div
             key={song.id}
@@ -154,10 +151,10 @@ function SongsContent() {
   );
 }
 
-export default function Songs() {
+export default function TopSongs() {
   return (
     <Suspense fallback={<Loader />}>
-      <SongsContent />
+      <TopSongsContent />
     </Suspense>
   );
 }

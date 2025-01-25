@@ -113,7 +113,7 @@ export default function Player() {
               layout
             >
               <motion.p
-                className="text-base font-medium sm:font-semibold text-zinc-800 truncate"
+                className="text-sm font-medium sm:font-semibold text-zinc-950 truncate"
                 layout
               >
                 {currentSong.name}
