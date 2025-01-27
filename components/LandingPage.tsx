@@ -12,7 +12,7 @@ export function Landing() {
     return (
       <main className="flex h-screen flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-zinc-800">Welcome to Igris</h1>
+          <h1 className="text-4xl font-bold text-zinc-800"></h1>
           <p className="mb-4">You are logged in as {session.user?.name}</p>
           <motion.button
             initial={{
@@ -49,7 +49,7 @@ export function Landing() {
     <main className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="text-center">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 text-zinc-900">
-          Igris - View and Play your Liked and Top Tracks
+          Igris - Your Liked and Top Tracks
         </h1>
         <motion.button
           onClick={() => signIn('spotify')}
