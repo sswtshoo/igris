@@ -13,12 +13,13 @@ export async function GET(request: Request) {
     }
 
     const response = await fetch(
-      `https://api.spotify.com/v1/me/top/tracks?limit=20&time_range=${timeRange}`,
+      `https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=${timeRange}`,
       {
         headers: {
           Authorization: `Bearer ${session.accessToken}`,
           'Content-Type': 'application/json',
         },
+        next: { revalidate: 3600 },
       }
     );
 

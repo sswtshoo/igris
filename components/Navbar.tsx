@@ -1,6 +1,7 @@
 'use client';
 import { useSession, signOut } from 'next-auth/react';
 import { SignOut } from '@phosphor-icons/react';
+import Image from 'next/image';
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -13,14 +14,18 @@ export default function Navbar() {
         <div className=" flex h-full items-center justify-end">
           {session && (
             <div
-              className="flex items-center right-8 gap-x-1 rounded-full bg-zinc-200 px-2 py-1 hover:scale-105 duration-200"
+              className="flex items-center right-8 gap-x-1 rounded-full bg-white border-[1px] border-zinc-900 border-opacity-5 shadow-sm px-2 py-1 hover:scale-105 duration-200"
               onClick={() => signOut({ callbackUrl: '/signin' })}
             >
-              <span className="text-sm text-zinc-500 font-medium cursor-default">
-                {session.user?.name}
-              </span>
+              <Image
+                src={session.user?.image as string}
+                width={300}
+                height={300}
+                alt=""
+                className="rounded-full aspect-square object-cover h-5 w-5"
+              />
               <button className="text-xs rounded-md hover:text-zinc-900 transition-colors">
-                <SignOut className="text-zinc-500" size={12} weight="fill" />
+                <SignOut className="text-zinc-500" size={15} weight="bold" />
               </button>
             </div>
           )}

@@ -36,7 +36,7 @@ export function Landing() {
               stiffness: 300,
               damping: 20,
             }}
-            className="border-[1px] border-opacity-25 border-zinc-500 px-4 py-2 bg-white rounded-md"
+            className="border border-black/5 px-4 py-2 bg-white rounded-lg shadow-md"
           >
             <Link href={'/songs'}>Go to songs</Link>
           </motion.button>
@@ -48,8 +48,8 @@ export function Landing() {
   return (
     <main className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-6 text-zinc-700">
-          Welcome to Igris
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 text-zinc-900">
+          Igris - View and Play your Liked and Top Tracks
         </h1>
         <motion.button
           onClick={() => signIn('spotify')}
@@ -74,7 +74,7 @@ export function Landing() {
             stiffness: 300,
             damping: 20,
           }}
-          className="px-6 py-3 rounded-md text-zinc-900 bg-zinc-100 transition-colors border-2 border-zinc-800 border-opacity-25"
+          className="px-4 py-2 rounded-lg text-zinc-900 bg-zinc-100 transition-colors border border-black/5 shadow-md"
         >
           Sign in with Spotify
         </motion.button>

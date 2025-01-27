@@ -12,6 +12,8 @@ import { type Track } from '@/types/spotify';
 import Link from 'next/link';
 import Lenis from 'lenis';
 import { useEffect } from 'react';
+import Image from 'next/image';
+import { Link as LinkIcon } from '@phosphor-icons/react';
 
 function TopSongsContent() {
   const searchParams = useSearchParams();
@@ -73,38 +75,63 @@ function TopSongsContent() {
   const songs: Track[] = data?.tracks || [];
 
   return (
-    <div className="px-4 sm:px-8 py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
+    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
       <div className="flex sm:flex-row flex-col items-center justify-between mb-6">
-        <div className="flex items-center gap-4 mb-4">
-          <h1 className="text-3xl font-semibold text-zinc-950 ml-4">
-            Top Songs
+        <div className="flex items-center gap-2 sm:gap-4 mb-4">
+          <h1 className="text-lg sm:text-xl font-medium sm:font-semibold text-zinc-950 ml-2 sm:ml-4">
+            Top 50 Songs
           </h1>
-          <Link href="/songs" className="text-zinc-600 hover:text-zinc-800">
+          <Link
+            href="/songs"
+            className="text-zinc-600 text-[10px] sm:text-xs hover:text-zinc-800"
+          >
             ← View Liked Songs
           </Link>
         </div>
-        <div className="flex items-center gap-4 px-2 py-1 mr-4 bg-white shadow-lg shadow-zinc-200 border-[1px] border-zinc-800 border-opacity-5 rounded-lg">
-          {timeRanges.map((range) => (
-            <button
-              key={range.value}
-              onClick={() => {
-                const url = new URL(window.location.href);
-                url.searchParams.set('range', range.value);
-                window.history.pushState({}, '', url);
-              }}
-              className={`px-2 py-1 font-medium text-sm rounded-md transition-all ${
-                timeRange === range.value
-                  ? 'bg-zinc-950 text-zinc-100'
-                  : 'hover:bg-zinc-800/5 text-zinc-600'
-              }`}
-            >
-              {range.label}
-            </button>
-          ))}
+        <div className="flex items-center justify-center gap-1 mr-4 p-[6px] bg-white shadow-sm border border-zinc-950 border-opacity-5 rounded-full">
+          <div className="flex items-center">
+            {timeRanges.map((range) => (
+              <button
+                key={range.value}
+                onClick={() => {
+                  const url = new URL(window.location.href);
+                  url.searchParams.set('range', range.value);
+                  window.history.pushState({}, '', url);
+                }}
+                className="w-20"
+              >
+                <motion.span
+                  className={`block py-[6px] font-semibold text-xs rounded-full w-full ${
+                    timeRange === range.value
+                      ? 'bg-zinc-950 text-zinc-100'
+                      : 'hover:bg-zinc-200 text-zinc-500'
+                  }`}
+                  animate={{
+                    backgroundColor:
+                      timeRange === range.value
+                        ? 'rgb(9, 9, 11)'
+                        : 'transparent',
+                    color:
+                      timeRange === range.value
+                        ? 'rgb(244, 244, 245)'
+                        : 'rgb(113, 113, 122)',
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 20,
+                  }}
+                  layout
+                >
+                  {range.label}
+                </motion.span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-16">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4 mb-16">
         {songs.map((song) => (
           <motion.div
             key={song.id}
@@ -117,23 +144,40 @@ function TopSongsContent() {
               y: 0,
               scale: 1,
             }}
-            whileTap={{ scale: 0.95, rotate: '15deg' }}
+            whileHover={{
+              scale: 1.05,
+            }}
+            whileTap={{ scale: 0.95, rotate: '5deg' }}
             transition={{
               duration: 0.3,
               type: 'spring',
               stiffness: 300,
               damping: 20,
+              mass: 0.6,
             }}
-            className="p-2 sm:p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-60 cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
-                <img
-                  src={song.album.images[0].url}
-                  alt={song.name}
-                  className="w-full h-full rounded-md object-cover aspect-square shadow-xl"
-                  loading="eager"
-                />
+                <div className="image-icon relative group flex-shrink-0">
+                  <Image
+                    src={song.album.images[0].url}
+                    alt={song.name}
+                    width={300}
+                    height={300}
+                    className="w-full h-full rounded-[0.250rem] object-cover aspect-square shadow-xl"
+                    loading="eager"
+                  />
+                  <Link
+                    className="absolute top-2 right-2 h-8 w-8 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
+                    href={song.external_urls.spotify}
+                    prefetch={false}
+                    target="_blank"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <LinkIcon size={20} className="" weight="bold" />
+                  </Link>
+                </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full">
                 <h2 className="font-semibold text-sm truncate text-zinc-900">
