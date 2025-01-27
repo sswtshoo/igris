@@ -76,19 +76,19 @@ function TopSongsContent() {
 
   return (
     <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex sm:flex-row flex-col items-center justify-between mb-6">
-        <div className="flex items-center gap-2 sm:gap-4 mb-4">
-          <h1 className="text-lg sm:text-xl font-medium sm:font-semibold text-zinc-950 ml-2 sm:ml-4">
+      <div className="flex flex-col items-center gap-4 mb-6">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <h1 className="text-lg sm:text-xl font-medium sm:font-semibold text-zinc-950">
             Top 50 Songs
           </h1>
           <Link
             href="/songs"
             className="text-zinc-600 text-[10px] sm:text-xs hover:text-zinc-800"
           >
-            ← View Liked Songs
+            ← Liked Songs
           </Link>
         </div>
-        <div className="flex items-center justify-center gap-1 mr-4 p-[6px] bg-white shadow-sm border border-zinc-950 border-opacity-5 rounded-full">
+        <div className="flex items-center justify-center gap-1 p-[6px] bg-white shadow-sm border border-zinc-950 border-opacity-5 rounded-full">
           <div className="flex items-center">
             {timeRanges.map((range) => (
               <button
