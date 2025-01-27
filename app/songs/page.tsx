@@ -100,7 +100,11 @@ function SongsContent() {
   const songs: Track[] = data?.tracks || [];
   return (
     <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
+<<<<<<< HEAD
       <div className="flex items-center justify-center gap-2 sm:gap-4 mb-4">
+=======
+      <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-4 mb-4">
+>>>>>>> a473cb1c918ba1e15d89f2f88bf43e00e61bc8cc
         <h1 className="text-lg sm:text-xl font-medium sm:font-semibold text-zinc-950 ml-2 sm:ml-4">
           Liked Songs
         </h1>
