@@ -91,7 +91,7 @@ export default function Player() {
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-20">
       <div className="px-3 py-6">
         <motion.div
-          className="px-2 py-2 bg-white/50 backdrop-blur-2xl border-[1px] border-opacity-25 border-zinc-400  rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
+          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/5  rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -118,7 +118,7 @@ export default function Player() {
               layout
             >
               <motion.p
-                className="text-sm font-medium sm:font-semibold text-zinc-950 truncate"
+                className="text-sm font-semibold text-zinc-950 truncate"
                 layout
               >
                 {currentSong.name}
