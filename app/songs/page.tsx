@@ -12,6 +12,8 @@ import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import Lenis from 'lenis';
 import Link from 'next/link';
+import { Link as LinkIcon } from '@phosphor-icons/react';
+import Image from 'next/image';
 
 function SongsContent() {
   const searchParams = useSearchParams();
@@ -97,12 +99,15 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-4 sm:px-8 py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex items-center gap-4 mb-4">
-        <h1 className="text-3xl font-semibold text-zinc-950 ml-4">
+    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
+      <div className="flex items-center gap-2 sm:gap-4 mb-4">
+        <h1 className="text-lg sm:text-xl font-medium sm:font-semibold text-zinc-950 ml-2 sm:ml-4">
           Liked Songs
         </h1>
-        <Link href="/songs/top" className="text-zinc-600 hover:text-zinc-800">
+        <Link
+          href="/songs/top"
+          className="text-zinc-600 text-[10px] sm:text-xs hover:text-zinc-800"
+        >
           View Top Songs →
         </Link>
       </div>
@@ -113,14 +118,14 @@ function SongsContent() {
             key={song.id}
             onClick={() => handlePlay(song)}
             initial={{
-              y: -20,
+              opacity: 0,
               scale: 0.8,
             }}
             animate={{
-              y: 0,
+              opacity: 1,
               scale: 1,
             }}
-            whileTap={{ scale: 0.95, rotate: '15deg' }}
+            whileTap={{ scale: 0.95, rotate: '5deg' }}
             transition={{
               duration: 0.3,
               type: 'spring',
@@ -131,12 +136,25 @@ function SongsContent() {
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
-                <img
-                  src={song.album.images[0].url}
-                  alt={song.name}
-                  className="w-full h-full rounded-md object-cover aspect-square shadow-xl"
-                  loading="eager"
-                />
+                <div className="image-icon relative group flex-shrink-0">
+                  <Image
+                    src={song.album.images[0].url}
+                    alt={song.name}
+                    width={300}
+                    height={300}
+                    className="w-full h-full rounded-[0.250rem] object-cover aspect-square shadow-xl"
+                    loading="eager"
+                  />
+                  <Link
+                    className="absolute top-2 right-2 h-8 w-8 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
+                    href={song.external_urls.spotify}
+                    prefetch={false}
+                    target="_blank"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <LinkIcon size={20} className="" weight="bold" />
+                  </Link>
+                </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full">
                 <h2 className="font-semibold text-sm truncate text-zinc-900">

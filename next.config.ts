@@ -1,7 +1,14 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      { hostname: 'i.scdn.co' },
+      { hostname: 'mosaic.scdn.co' },
+      { hostname: 't.scdn.co' },
+    ],
+  },
 };
 
 export default nextConfig;

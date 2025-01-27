@@ -5,6 +5,7 @@ import { Play, Pause, SkipForward, SkipBack } from '@phosphor-icons/react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 export default function Player() {
   const {
@@ -40,16 +41,18 @@ export default function Player() {
         stiffness: 300,
         damping: 25,
         duration: 0.2,
+        mass: 0.6,
       },
     },
     expanded: {
       width: 'auto',
       transition: {
         type: 'spring',
-        stiffness: 1000,
-        damping: 50,
+        stiffness: 300,
+        damping: 25,
         when: 'beforeChildren',
         duration: 0.2,
+        mass: 0.6,
       },
     },
   };
@@ -85,10 +88,10 @@ export default function Player() {
   };
 
   return (
-    <div className="fixed bottom-4 sm:bottom-4 left-1/2 -translate-x-1/2 z-20">
+    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-20">
       <div className="px-3 py-6">
         <motion.div
-          className="px-2 py-2 bg-white backdrop-blur-2xl border-[1px] border-opacity-25 border-zinc-400  rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
+          className="px-2 py-2 bg-white/50 backdrop-blur-2xl border-[1px] border-opacity-25 border-zinc-400  rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -101,15 +104,17 @@ export default function Player() {
             layout
           >
             <div className="flex-shrink-0">
-              <img
+              <Image
                 src={currentSong.album.images[0]?.url}
                 alt={currentSong.name}
-                className="sm:h-10 h-8 rounded-[0.250rem] aspect-square mr-0 object-cover"
+                height={300}
+                width={300}
+                className="sm:h-10 sm:w-10 w-8 h-8 rounded-[0.250rem] aspect-square mr-0 object-cover"
               />
             </div>
 
             <motion.div
-              className="track-details max-w-60 sm:max-w-64 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
+              className="track-details max-w-60 sm:max-w-80 md:max-w-96 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
               layout
             >
               <motion.p
