@@ -12,18 +12,22 @@ body {
 
 @layer base {
   html {
-    font-family: 'Switzer-Variable', sans-serif;
+    font-family: 'CabinetGrotesk-Variable', sans-serif;
   }
 }
 
 @font-face {
-  font-family: 'Switzer-Variable';
+  font-family: 'CabinetGrotesk-Variable';
   src:
-    url('../public/fonts/Switzer-Variable.woff2') format('.woff2'),
-    url('../public/fonts/Switzer-Variable.woff') format('.woff'),
-    url('../public/fonts/Switzer-Variable.ttf') format('.ttf');
+    url('../public/fonts/CabinetGrotesk-Variable.woff2') format('.woff2'),
+    url('../public/fonts/CabinetGrotesk-Variable.woff') format('.woff'),
+    url('../public/fonts/CabinetGrotesk-Variable.ttf') format('truetype');
   font-display: swap;
   font-style: normal;
+}
+
+.cabinet {
+  font-family: 'CabinetGrotesk-Variable', sans-serif !important;
 }
 
 * {

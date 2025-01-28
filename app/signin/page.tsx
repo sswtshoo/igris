@@ -47,7 +47,7 @@ function SignInContent() {
 
   return (
     <div className="flex flex-col gap-4 items-center">
-      <h1 className="text-2xl font-bold text-center text-zinc-700">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center text-zinc-950">
         Igris for Spotify
       </h1>
       {error && (
@@ -59,7 +59,7 @@ function SignInContent() {
         onClick={handleSignIn}
         initial={{
           backgroundColor: 'rgb(255, 255, 255)',
-          color: 'rgb(82, 82, 91)',
+          color: 'rgb(9, 9, 11)',
         }}
         whileHover={{
           backgroundColor: 'rgb(24, 24, 27)',
@@ -73,7 +73,7 @@ function SignInContent() {
           rotate: '5deg',
         }}
         transition={{ duration: 0.15, ease: 'easeIn' }}
-        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-zinc-600 text-sm p-2 rounded-md shadow-md font-semibold hover:bg-zinc-300 transition-colors"
+        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-base p-2 rounded-md shadow-md font-semibold hover:bg-zinc-300 transition-colors"
       >
         Sign in with Spotify
       </motion.button>

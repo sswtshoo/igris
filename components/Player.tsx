@@ -88,10 +88,10 @@ export default function Player() {
   };
 
   return (
-    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-20">
+    <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
       <div className="px-3 py-6">
         <motion.div
-          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/5  rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
+          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/15 rounded-lg flex flex-row items-center gap-x-4 justify-center cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -114,7 +114,7 @@ export default function Player() {
             </div>
 
             <motion.div
-              className="track-details max-w-60 sm:max-w-80 md:max-w-96 min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
+              className="track-details max-w-72 sm:max-w-96 md:max-w-[30rem] min-w-12 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
               layout
             >
               <motion.p
@@ -124,7 +124,7 @@ export default function Player() {
                 {currentSong.name}
               </motion.p>
               <motion.p
-                className="text-xs text-zinc-800 font-normal truncate max-w-full"
+                className="text-xs text-zinc-950 font-normal truncate max-w-full"
                 layout
               >
                 {currentSong.artists.map((artist) => artist.name).join(', ')}
@@ -132,7 +132,7 @@ export default function Player() {
             </motion.div>
           </motion.div>
 
-          <div className="flex sm:hidden items-center justify-center gap-2 text-zinc-500">
+          <div className="flex sm:hidden items-center justify-center gap-2 text-zinc-800">
             <SkipBack
               className="active:scale-90 transition h-3 sm:h-4"
               onClick={previousTrack}
@@ -158,7 +158,7 @@ export default function Player() {
           <AnimatePresence mode="popLayout">
             {isExpanded && (
               <motion.div
-                className="hidden sm:flex items-center justify-center gap-2"
+                className="hidden sm:flex items-center justify-center gap-2 text-zinc-800 "
                 variants={controlsVariants}
                 initial="initial"
                 animate="animate"
@@ -167,7 +167,7 @@ export default function Player() {
               >
                 <SkipBack
                   size={16}
-                  className="text-zinc-700 hover:scale-110 transition duration-200"
+                  className="hover:scale-110 transition duration-200"
                   onClick={previousTrack}
                   weight="fill"
                 />
@@ -175,20 +175,20 @@ export default function Player() {
                   {isPlaying ? (
                     <Pause
                       size={20}
-                      className="text-zinc-700 hover:scale-110 transition duration-200"
+                      className="hover:scale-110 transition duration-200"
                       weight="fill"
                     />
                   ) : (
                     <Play
                       size={20}
-                      className="text-zinc-700 hover:scale-110 transition duration-200"
+                      className="hover:scale-110 transition duration-200"
                       weight="fill"
                     />
                   )}
                 </button>
                 <SkipForward
                   size={16}
-                  className="text-zinc-700 hover:scale-110 transition duration-200"
+                  className="hover:scale-110 transition duration-200"
                   onClick={() => nextTrack()}
                   weight="fill"
                 />
