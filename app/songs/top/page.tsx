@@ -148,9 +148,6 @@ function TopSongsContent() {
               y: 0,
               scale: 1,
             }}
-            whileHover={{
-              scale: 1.05,
-            }}
             whileTap={{ scale: 0.95, rotate: '5deg' }}
             transition={{
               duration: 0.3,
