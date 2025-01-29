@@ -92,7 +92,7 @@ function TopSongsContent() {
             ← Liked Songs
           </Link>
         </div>
-        <div className="flex items-center justify-center gap-1 p-[6px] bg-white shadow-md border border-zinc-950 border-opacity-5 rounded-full">
+        <div className="flex items-center justify-center gap-1 p-[6px] bg-white shadow-sm border border-zinc-950 border-opacity-5 rounded-full">
           <div className="flex items-center">
             {timeRanges.map((range) => (
               <button
@@ -105,7 +105,7 @@ function TopSongsContent() {
                 className="w-20"
               >
                 <motion.span
-                  className={`block py-[6px] font-semibold text-xs rounded-full w-full ${
+                  className={`block py-2 font-semibold text-xs rounded-full w-full ${
                     timeRange === range.value
                       ? 'bg-zinc-950 text-zinc-100'
                       : 'hover:bg-zinc-200 text-zinc-500'
