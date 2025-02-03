@@ -26,10 +26,6 @@ body {
   font-style: normal;
 }
 
-.cabinet {
-  font-family: 'CabinetGrotesk-Variable', sans-serif !important;
-}
-
 * {
   box-sizing: border-box;
 }

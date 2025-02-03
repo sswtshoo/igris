@@ -50,7 +50,7 @@ export function Landing() {
   return (
     <main className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="text-center">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 text-zinc-950">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium mb-2 text-zinc-950">
           Igris - Your Liked and Top Played Tracks
         </h1>
         <motion.button
@@ -76,7 +76,7 @@ export function Landing() {
             stiffness: 300,
             damping: 20,
           }}
-          className="px-4 py-2 rounded-lg text-zinc-900 bg-zinc-100 transition-colors border border-black/5 shadow-md"
+          className="px-4 py-2 rounded-md font-normal text-zinc-900 bg-zinc-100 transition-colors border border-black/5 shadow-md"
         >
           Sign in with Spotify
         </motion.button>

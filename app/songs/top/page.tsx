@@ -81,26 +81,7 @@ function TopSongsContent() {
   return (
     <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
       <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-8 mb-4">
-        <div className="flex items-center justify-center gap-2 sm:gap-4">
-          <Link
-            href="/songs"
-            className="text-sm group font-medium sm:font-medium text-zinc-700 ml-2 sm:ml-4"
-          >
-            <span className="text-sm font-medium bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_2px] group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-              Liked Songs
-            </span>
-          </Link>
-          <Link
-            className="group text-zinc-950 transition-all duration-300 ease-in-out"
-            href="/songs/top"
-          >
-            <span className="text-sm font-normal sm:font-normal bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-[length:100%_2px] bg-no-repeat transition-all duration-500 ease-out">
-              Top Songs
-            </span>
-          </Link>
-        </div>
-
-        <div className="flex items-center xl:mr-6">
+        <div className="flex items-center">
           {timeRanges.map((range) => (
             <button
               key={range.value}
@@ -112,17 +93,15 @@ function TopSongsContent() {
               className="w-20"
             >
               <motion.span
-                className={`block py-1 font-medium text-xs rounded-sm w-full ${
+                className={`block font-medium text-xs rounded-sm w-full ${
                   timeRange === range.value
-                    ? 'bg-zinc-950 text-zinc-100'
-                    : 'hover:bg-zinc-200 text-zinc-500'
+                    ? 'text-zinc-950 font-semibold'
+                    : 'hover:text-zinc-700 text-zinc-400'
                 }`}
                 animate={{
-                  backgroundColor:
-                    timeRange === range.value ? 'rgb(9, 9, 11)' : 'transparent',
                   color:
                     timeRange === range.value
-                      ? 'rgb(244, 244, 245)'
+                      ? 'rgb(9, 9, 11)'
                       : 'rgb(113, 113, 122)',
                 }}
                 transition={{
@@ -139,8 +118,8 @@ function TopSongsContent() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-8 mb-8">
-        {songs.map((song) => (
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-12 mb-8">
+        {songs.map((song, index) => (
           <motion.div
             key={song.id}
             onClick={() => handlePlay(song)}
@@ -152,9 +131,9 @@ function TopSongsContent() {
               opacity: 1,
               scale: 1,
             }}
-            whileTap={{ scale: 0.95, rotate: '5deg' }}
+            whileTap={{ scale: 0.95 }}
             transition={{
-              duration: 0.3,
+              duration: 0.75,
               type: 'spring',
               stiffness: 300,
               damping: 20,
@@ -169,21 +148,24 @@ function TopSongsContent() {
                     alt={song.name}
                     width={300}
                     height={300}
-                    className="w-full h-full rounded-[0.250rem] object-cover aspect-square shadow-xl"
+                    className="w-full h-full object-cover aspect-square shadow-xl"
                     loading="eager"
                   />
                   <Link
-                    className="absolute top-2 right-2 h-8 w-8 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
+                    className="absolute top-2 right-2 h-6 w-6 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
                     href={song.external_urls.spotify}
                     prefetch={false}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <LinkIcon size={20} className="" weight="bold" />
+                    <LinkIcon size={12} className="" weight="bold" />
                   </Link>
                 </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full">
+                <p className="text-xs font-medium text-zinc-500 mt-2">
+                  {index + 1 < 10 ? '0' + (index + 1) : index + 1}.
+                </p>
                 <h2 className="font-medium text-xs truncate text-zinc-900">
                   {song.name}
                 </h2>

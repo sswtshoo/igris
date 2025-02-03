@@ -100,26 +100,7 @@ function SongsContent() {
   const songs: Track[] = data?.tracks || [];
   return (
     <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex items-baseline justify-center sm:justify-start gap-2 sm:gap-4 mb-4">
-        <Link
-          href="/songs"
-          className="text-sm group font-medium sm:font-medium text-zinc-950 ml-2 sm:ml-4"
-        >
-          <span className="text-sm font-medium bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:100%_2px] transition-all duration-500 ease-out">
-            Liked Songs
-          </span>
-        </Link>
-        <Link
-          className="group text-zinc-500 transition-all duration-300 ease-in-out"
-          href="/songs/top"
-        >
-          <span className="text-sm font-normal sm:font-normal bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-            Top Songs
-          </span>
-        </Link>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-8 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-12 mb-8">
         {songs.map((song) => (
           <motion.div
             key={song.id}
@@ -132,14 +113,14 @@ function SongsContent() {
               opacity: 1,
               scale: 1,
             }}
-            whileTap={{ scale: 0.95, rotate: '5deg' }}
+            whileTap={{ scale: 0.95 }}
             transition={{
               duration: 0.3,
               type: 'spring',
               stiffness: 300,
               damping: 20,
             }}
-            className="p-2 sm:p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-60 cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
@@ -149,21 +130,21 @@ function SongsContent() {
                     alt={song.name}
                     width={300}
                     height={300}
-                    className="w-full h-full rounded-[0.250rem] object-cover aspect-square shadow-xl"
+                    className="w-full h-full object-cover aspect-square shadow-xl"
                     loading="eager"
                   />
                   <Link
-                    className="absolute top-2 right-2 h-8 w-8 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
+                    className="absolute top-2 right-2 h-6 w-6 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
                     href={song.external_urls.spotify}
                     prefetch={false}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <LinkIcon size={20} className="" weight="bold" />
+                    <LinkIcon size={12} className="" weight="bold" />
                   </Link>
                 </div>
               )}
-              <div className="flex flex-col min-w-0 max-w-full">
+              <div className="flex flex-col min-w-0 max-w-full mt-2">
                 <h2 className="font-medium text-xs truncate text-zinc-900">
                   {song.name}
                 </h2>
