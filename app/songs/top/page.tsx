@@ -13,7 +13,7 @@ import Link from 'next/link';
 import Lenis from 'lenis';
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { Link as LinkIcon } from '@phosphor-icons/react';
+import { Link as LinkIcon, CaretLeft } from '@phosphor-icons/react';
 
 function TopSongsContent() {
   const searchParams = useSearchParams();
@@ -79,73 +79,77 @@ function TopSongsContent() {
   const songs: Track[] = data?.tracks || [];
 
   return (
-    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex flex-col sm:flex-row sm:justify-between mx-4 items-center gap-4 mb-6">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <h1 className="text-2xl sm:text-4xl font-medium sm:font-semibold text-zinc-950">
-            Top 50 Songs
-          </h1>
+    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
+      <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-8 mb-4">
+        <div className="flex items-center justify-center gap-2 sm:gap-4">
           <Link
             href="/songs"
-            className="text-zinc-600 text-[10px] sm:text-base hover:text-zinc-800 hover:underline"
+            className="text-sm group font-medium sm:font-medium text-zinc-700 ml-2 sm:ml-4"
           >
-            ← Liked Songs
+            <span className="text-sm font-medium bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_2px] group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+              Liked Songs
+            </span>
+          </Link>
+          <Link
+            className="group text-zinc-950 transition-all duration-300 ease-in-out"
+            href="/songs/top"
+          >
+            <span className="text-sm font-normal sm:font-normal bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-[length:100%_2px] bg-no-repeat transition-all duration-500 ease-out">
+              Top Songs
+            </span>
           </Link>
         </div>
-        <div className="flex items-center justify-center gap-1 p-[6px] bg-white shadow-sm border border-zinc-950 border-opacity-5 rounded-full">
-          <div className="flex items-center">
-            {timeRanges.map((range) => (
-              <button
-                key={range.value}
-                onClick={() => {
-                  const url = new URL(window.location.href);
-                  url.searchParams.set('range', range.value);
-                  window.history.pushState({}, '', url);
-                }}
-                className="w-20"
-              >
-                <motion.span
-                  className={`block py-2 font-semibold text-xs rounded-full w-full ${
+
+        <div className="flex items-center xl:mr-6">
+          {timeRanges.map((range) => (
+            <button
+              key={range.value}
+              onClick={() => {
+                const url = new URL(window.location.href);
+                url.searchParams.set('range', range.value);
+                window.history.pushState({}, '', url);
+              }}
+              className="w-20"
+            >
+              <motion.span
+                className={`block py-1 font-medium text-xs rounded-sm w-full ${
+                  timeRange === range.value
+                    ? 'bg-zinc-950 text-zinc-100'
+                    : 'hover:bg-zinc-200 text-zinc-500'
+                }`}
+                animate={{
+                  backgroundColor:
+                    timeRange === range.value ? 'rgb(9, 9, 11)' : 'transparent',
+                  color:
                     timeRange === range.value
-                      ? 'bg-zinc-950 text-zinc-100'
-                      : 'hover:bg-zinc-200 text-zinc-500'
-                  }`}
-                  animate={{
-                    backgroundColor:
-                      timeRange === range.value
-                        ? 'rgb(9, 9, 11)'
-                        : 'transparent',
-                    color:
-                      timeRange === range.value
-                        ? 'rgb(244, 244, 245)'
-                        : 'rgb(113, 113, 122)',
-                  }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 20,
-                  }}
-                  layout
-                >
-                  {range.label}
-                </motion.span>
-              </button>
-            ))}
-          </div>
+                      ? 'rgb(244, 244, 245)'
+                      : 'rgb(113, 113, 122)',
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20,
+                }}
+                layout
+              >
+                {range.label}
+              </motion.span>
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4 mb-16">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-8 mb-8">
         {songs.map((song) => (
           <motion.div
             key={song.id}
             onClick={() => handlePlay(song)}
             initial={{
-              y: -20,
+              opacity: 0,
               scale: 0.8,
             }}
             animate={{
-              y: 0,
+              opacity: 1,
               scale: 1,
             }}
             whileTap={{ scale: 0.95, rotate: '5deg' }}
@@ -154,9 +158,8 @@ function TopSongsContent() {
               type: 'spring',
               stiffness: 300,
               damping: 20,
-              mass: 0.6,
             }}
-            className="p-2 sm:p-4 max-w-60 cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
@@ -181,10 +184,10 @@ function TopSongsContent() {
                 </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full">
-                <h2 className="font-bold text-sm truncate text-zinc-950">
+                <h2 className="font-medium text-xs truncate text-zinc-900">
                   {song.name}
                 </h2>
-                <p className="text-sm text-zinc-700 truncate">
+                <p className="text-xs text-zinc-400 font-medium truncate">
                   {song.artists.map((artist) => artist.name).join(', ')}
                 </p>
               </div>

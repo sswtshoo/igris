@@ -12,7 +12,7 @@ import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import Lenis from 'lenis';
 import Link from 'next/link';
-import { Link as LinkIcon } from '@phosphor-icons/react';
+import { Link as LinkIcon, CaretRight } from '@phosphor-icons/react';
 import Image from 'next/image';
 
 function SongsContent() {
@@ -99,20 +99,27 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1320px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-4 mb-4">
-        <h1 className="text-2xl sm:text-4xl font-medium sm:font-semibold text-zinc-950 ml-2 sm:ml-4">
-          Liked Songs
-        </h1>
+    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
+      <div className="flex items-baseline justify-center sm:justify-start gap-2 sm:gap-4 mb-4">
         <Link
-          href="/songs/top"
-          className="text-zinc-600 text-[10px] sm:text-sm hover:text-zinc-800 hover:underline"
+          href="/songs"
+          className="text-sm group font-medium sm:font-medium text-zinc-950 ml-2 sm:ml-4"
         >
-          Top Songs →
+          <span className="text-sm font-medium bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:100%_2px] transition-all duration-500 ease-out">
+            Liked Songs
+          </span>
+        </Link>
+        <Link
+          className="group text-zinc-500 transition-all duration-300 ease-in-out"
+          href="/songs/top"
+        >
+          <span className="text-sm font-normal sm:font-normal bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+            Top Songs
+          </span>
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-8 mb-8">
         {songs.map((song) => (
           <motion.div
             key={song.id}
@@ -157,10 +164,10 @@ function SongsContent() {
                 </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full">
-                <h2 className="font-semibold text-sm truncate text-zinc-900">
+                <h2 className="font-medium text-xs truncate text-zinc-900">
                   {song.name}
                 </h2>
-                <p className="text-sm text-zinc-700 truncate">
+                <p className="text-xs text-zinc-400 font-medium truncate">
                   {song.artists.map((artist) => artist.name).join(', ')}
                 </p>
               </div>

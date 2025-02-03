@@ -51,7 +51,7 @@ function SignInContent() {
         Igris for Spotify
       </h1>
       {error && (
-        <div className="text-red-500 text-sm mb-4">
+        <div className="text-red-500 text-sm mb-2">
           Authentication error. Please try again.
         </div>
       )}
@@ -73,7 +73,7 @@ function SignInContent() {
           rotate: '5deg',
         }}
         transition={{ duration: 0.15, ease: 'easeIn' }}
-        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-base p-2 rounded-md shadow-md font-semibold hover:bg-zinc-300 transition-colors"
+        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-base p-2 rounded-md shadow-md font-medium hover:bg-zinc-300 transition-colors"
       >
         Sign in with Spotify
       </motion.button>
