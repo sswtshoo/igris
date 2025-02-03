@@ -26,6 +26,15 @@ body {
   font-style: normal;
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 * {
   box-sizing: border-box;
 }
