@@ -13,7 +13,7 @@ import Link from 'next/link';
 import Lenis from 'lenis';
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { Link as LinkIcon, CaretLeft } from '@phosphor-icons/react';
+import { Link as LinkIcon } from '@phosphor-icons/react';
 
 function TopSongsContent() {
   const searchParams = useSearchParams();
@@ -79,7 +79,7 @@ function TopSongsContent() {
   const songs: Track[] = data?.tracks || [];
 
   return (
-    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
+    <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
       <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-8 mb-4">
         <div className="flex items-center">
           {timeRanges.map((range) => (
@@ -93,10 +93,10 @@ function TopSongsContent() {
               className="w-20"
             >
               <motion.span
-                className={`block font-medium text-xs rounded-sm w-full ${
+                className={`block text-xs w-full ${
                   timeRange === range.value
-                    ? 'text-zinc-950 font-semibold'
-                    : 'hover:text-zinc-700 text-zinc-400'
+                    ? 'text-zinc-950 font-[550]'
+                    : 'hover:text-zinc-700 text-zinc-400 font-normal text-xs'
                 }`}
                 animate={{
                   color:
@@ -118,7 +118,7 @@ function TopSongsContent() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-12 mb-8">
+      <motion.div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-16 mb-16">
         {songs.map((song, index) => (
           <motion.div
             key={song.id}
@@ -138,7 +138,7 @@ function TopSongsContent() {
               stiffness: 300,
               damping: 20,
             }}
-            className="p-2 sm:p-4 max-w-60 rounded-lg cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-40 sm:max-w-60 rounded-lg cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
@@ -148,7 +148,7 @@ function TopSongsContent() {
                     alt={song.name}
                     width={300}
                     height={300}
-                    className="w-full h-full object-cover aspect-square shadow-xl"
+                    className="w-full h-full object-cover aspect-square"
                     loading="eager"
                   />
                   <Link
@@ -163,20 +163,20 @@ function TopSongsContent() {
                 </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full">
-                <p className="text-xs font-medium text-zinc-500 mt-2">
+                <p className="text-[0.6rem] font-medium text-zinc-500 mt-2">
                   {index + 1 < 10 ? '0' + (index + 1) : index + 1}.
                 </p>
-                <h2 className="font-medium text-xs truncate text-zinc-900">
+                <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
                   {song.name}
                 </h2>
-                <p className="text-xs text-zinc-400 font-medium truncate">
+                <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
                   {song.artists.map((artist) => artist.name).join(', ')}
                 </p>
               </div>
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

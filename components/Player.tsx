@@ -91,7 +91,7 @@ export default function Player() {
     <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
       <div className="px-3 py-6">
         <motion.div
-          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/5 shadow-2xl rounded-md flex flex-row items-center gap-x-4 justify-center cursor-default"
+          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/5 shadow-2xl flex flex-row items-center gap-x-4 justify-center cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -109,7 +109,7 @@ export default function Player() {
                 alt={currentSong.name}
                 height={300}
                 width={300}
-                className="sm:h-10 sm:w-10 w-8 h-8 rounded-[0.125rem] aspect-square mr-0 object-cover"
+                className="sm:h-10 sm:w-10 w-8 h-8 aspect-square mr-0 object-cover"
               />
             </div>
 
@@ -118,13 +118,13 @@ export default function Player() {
               layout
             >
               <motion.p
-                className="text-xs font-medium text-zinc-950 truncate"
+                className="text-[0.7rem] font-medium text-zinc-950 truncate"
                 layout
               >
                 {currentSong.name}
               </motion.p>
               <motion.p
-                className="text-xs text-zinc-500 font-medium truncate max-w-full"
+                className="text-[0.6rem] text-zinc-500 font-medium truncate max-w-full"
                 layout
               >
                 {currentSong.artists.map((artist) => artist.name).join(', ')}

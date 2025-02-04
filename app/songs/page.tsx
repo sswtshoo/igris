@@ -12,7 +12,7 @@ import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import Lenis from 'lenis';
 import Link from 'next/link';
-import { Link as LinkIcon, CaretRight } from '@phosphor-icons/react';
+import { Link as LinkIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 
 function SongsContent() {
@@ -99,7 +99,7 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-2 sm:px-4 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
+    <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-12 mb-8">
         {songs.map((song) => (
           <motion.div
@@ -120,7 +120,7 @@ function SongsContent() {
               stiffness: 300,
               damping: 20,
             }}
-            className="p-2 sm:p-4 max-w-60 cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
@@ -130,7 +130,7 @@ function SongsContent() {
                     alt={song.name}
                     width={300}
                     height={300}
-                    className="w-full h-full object-cover aspect-square shadow-xl"
+                    className="w-full h-full object-cover aspect-square"
                     loading="eager"
                   />
                   <Link
@@ -145,10 +145,10 @@ function SongsContent() {
                 </div>
               )}
               <div className="flex flex-col min-w-0 max-w-full mt-2">
-                <h2 className="font-medium text-xs truncate text-zinc-900">
+                <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
                   {song.name}
                 </h2>
-                <p className="text-xs text-zinc-400 font-medium truncate">
+                <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
                   {song.artists.map((artist) => artist.name).join(', ')}
                 </p>
               </div>

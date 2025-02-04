@@ -21,7 +21,7 @@ export default function Navbar() {
               className="group font-medium sm:font-medium text-zinc-700"
             >
               <span
-                className={`text-xs font-medium text-zinc-950 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat ${
+                className={`text-[0.7rem] font-medium text-zinc-950 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat ${
                   pathname === '/songs'
                     ? 'bg-[length:100%_1px]'
                     : 'bg-[length:0%_1px] group-hover:bg-[length:100%_1px]'
@@ -35,10 +35,10 @@ export default function Navbar() {
               className="group text-zinc-700 transition-all duration-300 ease-in-out"
             >
               <span
-                className={`text-xs font-medium text-zinc-950 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat ${
+                className={`text-[0.7rem] font-medium text-zinc-950 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat ${
                   pathname === '/songs/top'
                     ? 'bg-[length:100%_1px]'
-                    : 'bg-[length:0%_1px] group-hover:bg-[length:100%_2px]'
+                    : 'bg-[length:0%_1px] group-hover:bg-[length:100%_1px]'
                 } transition-all duration-500 ease-out`}
               >
                 Top Songs
@@ -47,10 +47,10 @@ export default function Navbar() {
           </div>
 
           <div
-            className="flex group items-center gap-x-1"
+            className="flex group items-center justify-between gap-x-1"
             onClick={() => signOut({ callbackUrl: '/signin' })}
           >
-            <button className="text-xs font-medium hover:text-zinc-900 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_1px] group-hover:bg-[length:100%_1px] transition-all duration-500 ease-out">
+            <button className="text-[0.7rem] font-medium hover:text-zinc-900 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_1px] group-hover:bg-[length:100%_1px] transition-all duration-500 ease-out">
               <p>Logout</p>
             </button>
           </div>

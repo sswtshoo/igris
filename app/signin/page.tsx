@@ -64,16 +64,15 @@ function SignInContent() {
         whileHover={{
           backgroundColor: 'rgb(24, 24, 27)',
           color: 'rgb(228, 228, 231)',
-          scale: 1.05,
+          scale: 1,
         }}
         whileTap={{
           backgroundColor: 'rgb(24, 24, 27)',
           color: 'rgb(228, 228, 231)',
           scale: 0.95,
-          rotate: '5deg',
         }}
         transition={{ duration: 0.15, ease: 'easeIn' }}
-        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-base p-2 rounded-md shadow-md font-normal hover:bg-zinc-300 transition-colors"
+        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-sm p-2 rounded-sm shadow-md font-[450] hover:bg-zinc-300 transition-colors"
       >
         Sign in with Spotify
       </motion.button>

@@ -62,13 +62,10 @@ export function Landing() {
           whileHover={{
             backgroundColor: 'rgb(24, 24, 27)',
             color: 'rgb(228, 228, 231)',
-            scale: 1.05,
           }}
           whileTap={{
             backgroundColor: 'rgb(24, 24, 27)',
             color: 'rgb(228, 228, 231)',
-            scale: 0.95,
-            rotate: '5deg',
           }}
           transition={{
             duration: 0.1,
@@ -76,7 +73,7 @@ export function Landing() {
             stiffness: 300,
             damping: 20,
           }}
-          className="px-4 py-2 rounded-md font-normal text-zinc-900 bg-zinc-100 transition-colors border border-black/5 shadow-md"
+          className="px-4 py-2 rounded-sm font-[450] text-zinc-900 bg-zinc-100 transition-colors border border-black/5 shadow-md"
         >
           Sign in with Spotify
         </motion.button>
