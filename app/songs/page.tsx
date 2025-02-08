@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import useSWR from 'swr';
 import { fetcher } from '@/utils/fetcher';
 import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { motion } from 'motion/react';
@@ -19,6 +19,8 @@ function SongsContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') ?? '';
   const { playTrack, pauseTrack, currentSong, isPlaying } = useTrackAudio();
+  const [loadedImages, setLoadedImages] = useState(new Set());
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
 
   const { data: session, status } = useSession({
     required: true,
@@ -58,6 +60,21 @@ function SongsContent() {
       shouldRetryOnError: false,
     }
   );
+
+  const handleImageLoad = (songId: string) => {
+    setLoadedImages((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(songId);
+      return newSet;
+    });
+  };
+
+  useEffect(() => {
+    if (!data?.tracks) return;
+    if (loadedImages.size === data.tracks.length) {
+      setAllImagesLoaded(true);
+    }
+  }, [loadedImages, data?.tracks]);
 
   const handlePlay = (track: Track) => {
     if (currentSong?.id === track.id && isPlaying) {
@@ -100,27 +117,29 @@ function SongsContent() {
   const songs: Track[] = data?.tracks || [];
   return (
     <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-12 mb-8">
-        {songs.map((song) => (
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-16 mb-16 [perspective:1000px]">
+        {songs.map((song, index) => (
           <motion.div
             key={song.id}
             onClick={() => handlePlay(song)}
             initial={{
               opacity: 0,
-              scale: 0.8,
+              scale: 1.1,
+              y: -100,
+              z: -1000,
             }}
             animate={{
               opacity: 1,
               scale: 1,
+              y: 0,
+              z: 0,
             }}
-            whileTap={{ scale: 0.95 }}
             transition={{
-              duration: 0.3,
-              type: 'spring',
-              stiffness: 300,
-              damping: 20,
+              duration: 1.2,
+              delay: 1.1 - 1 / Math.pow(1.1, index),
+              ease: [0.23, 1, 0.32, 1],
             }}
-            className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none"
+            className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
           >
             <div className="flex flex-col items-start gap-y-2">
               {song.album.images[0] && (
@@ -130,8 +149,9 @@ function SongsContent() {
                     alt={song.name}
                     width={300}
                     height={300}
-                    className="w-full h-full object-cover aspect-square"
+                    className="w-full h-full object-cover aspect-square border border-black/5"
                     loading="eager"
+                    onLoad={() => handleImageLoad(song.id)}
                   />
                   <Link
                     className="absolute top-2 right-2 h-6 w-6 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
@@ -144,14 +164,21 @@ function SongsContent() {
                   </Link>
                 </div>
               )}
-              <div className="flex flex-col min-w-0 max-w-full mt-2">
-                <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
-                  {song.name}
-                </h2>
-                <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
-                  {song.artists.map((artist) => artist.name).join(', ')}
-                </p>
-              </div>
+              {allImagesLoaded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col min-w-0 max-w-full mt-2"
+                >
+                  <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
+                    {song.name}
+                  </h2>
+                  <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
+                    {song.artists.map((artist) => artist.name).join(', ')}
+                  </p>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         ))}

@@ -38,7 +38,7 @@ export function Landing() {
               stiffness: 300,
               damping: 20,
             }}
-            className="border border-black/5 px-4 py-2 bg-white rounded-lg shadow-md"
+            className="border border-black/5 px-4 py-2 bg-white rounded-sm font-[450] shadow-md"
           >
             <Link href={'/songs'}>Go to songs</Link>
           </motion.button>
