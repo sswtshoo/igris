@@ -100,7 +100,7 @@ function SongsContent() {
 
   if (error) {
     return (
-      <div className="p-6 text-center">
+      <div className="p-6 flex h-full w-full items-center justify-center text-center">
         <p className="text-red-500 mb-2">
           {error.message || 'Error loading songs'}
         </p>
@@ -118,70 +118,76 @@ function SongsContent() {
   return (
     <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-16 mb-16 [perspective:1000px]">
-        {songs.map((song, index) => (
-          <motion.div
-            key={song.id}
-            onClick={() => handlePlay(song)}
-            initial={{
-              opacity: 0,
-              scale: 1.1,
-              y: -100,
-              z: -1000,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              z: 0,
-            }}
-            transition={{
-              duration: 1.2,
-              delay: 1.1 - 1 / Math.pow(1.1, index),
-              ease: [0.23, 1, 0.32, 1],
-            }}
-            className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
-          >
-            <div className="flex flex-col items-start gap-y-2">
-              {song.album.images[0] && (
-                <div className="image-icon relative group flex-shrink-0">
-                  <Image
-                    src={song.album.images[0].url}
-                    alt={song.name}
-                    width={300}
-                    height={300}
-                    className="w-full h-full object-cover aspect-square border border-black/5"
-                    loading="eager"
-                    onLoad={() => handleImageLoad(song.id)}
-                  />
-                  <Link
-                    className="absolute top-2 right-2 h-6 w-6 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
-                    href={song.external_urls.spotify}
-                    prefetch={false}
-                    target="_blank"
-                    onClick={(e) => e.stopPropagation()}
+        {songs.map((song, index) => {
+          const baseDelay = 1.1 - 1 / Math.pow(1.1, index);
+          return (
+            <motion.div
+              key={song.id}
+              onClick={() => handlePlay(song)}
+              initial={{
+                opacity: 0,
+                scale: 1.1,
+                y: -5,
+                z: -100,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                z: 0,
+              }}
+              transition={{
+                duration: 1.2,
+                delay: baseDelay,
+                ease: [0.23, 1, 0.32, 1],
+              }}
+              className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
+            >
+              <div className="flex flex-col items-start gap-y-2">
+                {song.album.images[0] && (
+                  <div className="image-icon relative group flex-shrink-0">
+                    <Image
+                      src={song.album.images[0].url}
+                      alt={song.name}
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover aspect-square border border-black/5"
+                      loading="eager"
+                      onLoad={() => handleImageLoad(song.id)}
+                    />
+                    <Link
+                      className="absolute top-2 right-2 h-6 w-6 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
+                      href={song.external_urls.spotify}
+                      prefetch={false}
+                      target="_blank"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <LinkIcon size={12} className="" weight="bold" />
+                    </Link>
+                  </div>
+                )}
+                {allImagesLoaded && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.3,
+                      delay: baseDelay + 0.3,
+                    }}
+                    className="flex flex-col min-w-0 max-w-full mt-2"
                   >
-                    <LinkIcon size={12} className="" weight="bold" />
-                  </Link>
-                </div>
-              )}
-              {allImagesLoaded && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col min-w-0 max-w-full mt-2"
-                >
-                  <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
-                    {song.name}
-                  </h2>
-                  <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
-                    {song.artists.map((artist) => artist.name).join(', ')}
-                  </p>
-                </motion.div>
-              )}
-            </div>
-          </motion.div>
-        ))}
+                    <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
+                      {song.name}
+                    </h2>
+                    <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
+                      {song.artists.map((artist) => artist.name).join(', ')}
+                    </p>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

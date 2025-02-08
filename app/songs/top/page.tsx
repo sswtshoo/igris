@@ -132,8 +132,8 @@ function TopSongsContent() {
               initial={{
                 opacity: 0,
                 scale: 1.1,
-                y: -100,
-                z: -1000,
+                y: -5,
+                z: -100,
               }}
               animate={{
                 opacity: 1,
