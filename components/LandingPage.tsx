@@ -50,11 +50,11 @@ export function Landing() {
   return (
     <main className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="text-center">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium mb-2 text-zinc-950">
+        <h1 className="text-xl sm:text-xl lg:text-2xl font-medium mb-2 text-zinc-950">
           Igris - Your Liked and Top Played Tracks
         </h1>
         <motion.button
-          onClick={() => signIn('spotify')}
+          onClick={() => signIn('spotify', { callbackUrl: '/songs' })}
           initial={{
             backgroundColor: 'rgb(255, 255, 255)',
             color: 'rgb(9, 9, 11)',

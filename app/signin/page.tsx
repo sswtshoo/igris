@@ -5,14 +5,15 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import Loader from '@/components/ui/loader';
 import { motion } from 'motion/react';
-import { useEffect } from 'react';
-import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 function SignInContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [pageEnable, setPageEnable] = useState(false);
 
   console.log('Auth State:', {
     session,
@@ -20,23 +21,6 @@ function SignInContent() {
     error: searchParams.get('error'),
     callbackUrl: searchParams.get('callbackUrl'),
   });
-
-  const handleSignIn = async () => {
-    try {
-      const result = await signIn('spotify', {
-        callbackUrl: '/songs',
-        redirect: false,
-      });
-
-      if (result?.error) {
-        console.error('Sign in error:', result.error);
-      } else if (result?.url) {
-        window.location.href = result.url;
-      }
-    } catch (error) {
-      console.error('Sign in error:', error);
-    }
-  };
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -56,7 +40,7 @@ function SignInContent() {
         </div>
       )}
       <motion.button
-        onClick={handleSignIn}
+        onClick={() => signIn('spotify', { callbackUrl: '/songs' })}
         initial={{
           backgroundColor: 'rgb(255, 255, 255)',
           color: 'rgb(9, 9, 11)',
@@ -76,6 +60,33 @@ function SignInContent() {
       >
         Sign in with Spotify
       </motion.button>
+      {pageEnable && (
+        <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+            <div className="flex flex-col gap-4 text-base">
+              <p className="text-black">
+                This project does not save any Spotify data. When you log-in
+                with your Spotify account, it creates a special, one-time token
+                to read your top played tracks, as well as your liked tracks.
+                That access goes away until you come back.
+              </p>
+              <p>
+                {`To remove ties between your Spotify account and this project, click
+          remove access for "igris" on Spotify's 3rd Party app page `}
+                <span className="underline">
+                  <Link href="https://www.spotify.com/account/apps/">here</Link>
+                </span>
+              </p>
+              <button
+                className="bg-black text-white rounded-md px-4 py-2 hover:bg-black/90 transition-colors"
+                onClick={() => setPageEnable(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

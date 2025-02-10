@@ -16,12 +16,15 @@ const refreshAccessToken = async (token: any) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${Buffer.from(
+          `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+        ).toString('base64')}`,
       },
       body: new URLSearchParams({
         client_id: process.env.SPOTIFY_CLIENT_ID as string,
         client_secret: process.env.SPOTIFY_CLIENT_SECRET as string,
         grant_type: 'refresh_token',
-        refresh_token: token.refresh_token as string,
+        refresh_token: token.refreshToken as string,
       }).toString(),
     });
 
@@ -34,9 +37,9 @@ const refreshAccessToken = async (token: any) => {
 
     return {
       ...token,
-      accessToken: refreshedToken.accessToken,
+      accessToken: refreshedToken.access_token,
       expiresAt: Date.now() + refreshedToken.expires_in * 1000,
-      refreshToken: refreshedToken.refresh_token ?? token.refresh_token,
+      refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
     console.log(error);

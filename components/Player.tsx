@@ -114,17 +114,17 @@ export default function Player() {
             </div>
 
             <motion.div
-              className="track-details min-w-24 max-w-36 sm:max-w-60 md:max-w-72 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
+              className="track-details max-w-36 sm:max-w-60 md:max-w-72 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
               layout
             >
               <motion.p
-                className="text-[0.7rem] font-medium text-zinc-950 truncate w-full"
+                className="text-[0.7rem] font-medium text-zinc-950 truncate"
                 layout
               >
                 {currentSong.name}
               </motion.p>
               <motion.p
-                className="text-[0.6rem] text-zinc-500 font-medium truncate w-full"
+                className="text-[0.6rem] text-zinc-500 font-medium truncate"
                 layout
               >
                 {currentSong.artists.map((artist) => artist.name).join(', ')}
