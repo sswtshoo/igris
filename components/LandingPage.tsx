@@ -9,6 +9,72 @@ import { useState } from 'react';
 export function Landing() {
   const { data: session } = useSession();
   const [pageEnable, setPageEnable] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+
+  const PrivacyModal = () => (
+    <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+        <div className="flex flex-col gap-4 text-base">
+          <h2 className="text-xl font-semibold">Privacy Policy</h2>
+          <p className="text-black">
+            This project does not save any Spotify data. When you log-in with
+            your Spotify account, it creates a special, one-time token to read
+            your top played tracks, as well as your liked tracks. That access
+            goes away until you come back.
+          </p>
+          <div className="flex flex-col"></div>
+          <p>We do not:</p>
+          <ul className="list-disc pl-4">
+            <li>Store any personal information</li>
+            <li>Share any data with third parties</li>
+            <li>Track user behavior</li>
+            <li>Use cookies for advertising</li>
+          </ul>
+          <p>
+            {`To remove access, visit Spotify's Apps page `}
+            <Link
+              href="https://www.spotify.com/account/apps/"
+              className="underline"
+              target="_blank"
+            >
+              here
+            </Link>
+          </p>
+          <button
+            className="bg-black text-white rounded-md px-4 py-2 hover:bg-black/90 transition-colors"
+            onClick={() => setShowPrivacy(false)}
+          >
+            Got it
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const TermsModal = () => (
+    <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+        <div className="flex flex-col gap-4 text-base">
+          <h2 className="text-xl font-semibold">Terms of Service</h2>
+          <p>By using igris, you agree to:</p>
+          <ul className="list-disc pl-4 space-y-2">
+            <li>Use the service for personal, non-commercial use only</li>
+            <li>Not attempt to circumvent Spotify's terms of service</li>
+            <li>Respect Spotify's intellectual property rights</li>
+            <li>Not abuse or attempt to exploit the service</li>
+          </ul>
+          <p>This service is not affiliated with Spotify.</p>
+          <button
+            className="bg-black text-white rounded-md px-4 py-2 hover:bg-black/90 transition-colors"
+            onClick={() => setShowTerms(false)}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   if (session) {
     return (
@@ -78,47 +144,23 @@ export function Landing() {
           Sign in with Spotify
         </motion.button>
       </div>
-      <div className=" fixed bottom-8 right-8 flex items-center justify-center">
-        <p className="font-normal text-xs text-black">
-          Privacy policy{' '}
-          <span
-            className="font-normal text-black underline cursor-pointer"
-            onClick={() => {
-              console.log('clicked');
-              setPageEnable(true);
-            }}
-          >
-            here
-          </span>
-        </p>
+      <div className="fixed bottom-8 right-8 flex items-center justify-center gap-4">
+        <button
+          onClick={() => setShowPrivacy(true)}
+          className="text-xs text-black hover:underline"
+        >
+          Privacy Policy
+        </button>
+        <button
+          onClick={() => setShowTerms(true)}
+          className="text-xs text-black hover:underline"
+        >
+          Terms of Service
+        </button>
       </div>
-      {pageEnable && (
-        <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
-            <div className="flex flex-col gap-4 text-base">
-              <p className="text-black">
-                This project does not save any Spotify data. When you log-in
-                with your Spotify account, it creates a special, one-time token
-                to read your top played tracks, as well as your liked tracks.
-                That access goes away until you come back.
-              </p>
-              <p>
-                {`To remove ties between your Spotify account and this project, click
-          remove access for "igris" on Spotify's 3rd Party app page `}
-                <span className="underline">
-                  <Link href="https://www.spotify.com/account/apps/">here</Link>
-                </span>
-              </p>
-              <button
-                className="bg-black text-white rounded-md px-4 py-2 hover:bg-black/90 transition-colors"
-                onClick={() => setPageEnable(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
+      {showPrivacy && <PrivacyModal />}
+      {showTerms && <TermsModal />}
     </main>
   );
 }

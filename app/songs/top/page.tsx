@@ -14,6 +14,7 @@ import Lenis from 'lenis';
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { Link as LinkIcon } from '@phosphor-icons/react';
+import SpotifyLogo from '@/public/Primary_Logo_Black_PMS_C.svg';
 
 function TopSongsContent() {
   const searchParams = useSearchParams();
@@ -160,13 +161,27 @@ function TopSongsContent() {
                       loading="eager"
                     />
                     <Link
-                      className="absolute top-2 right-2 h-6 w-6 bg-zinc-600 bg-opacity-25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10"
+                      className="absolute top-2 right-2 h-6 w-auto px-1 bg-zinc-600/25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
                       href={song.external_urls.spotify}
                       prefetch={false}
                       target="_blank"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <LinkIcon size={12} className="" weight="bold" />
+                      <motion.div
+                        className="flex items-center gap-x-1"
+                        initial={{ width: 'auto' }}
+                        whileHover={{ width: 'auto' }}
+                      >
+                        <Image
+                          src="/Primary_Logo_White_CMYK.svg"
+                          alt="Spotify"
+                          width={12}
+                          height={12}
+                        />
+                        <p className="text-[0.6rem] font-semibold text-white">
+                          OPEN IN SPOTIFY
+                        </p>
+                      </motion.div>
                     </Link>
                   </div>
                 )}
