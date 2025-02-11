@@ -59,10 +59,10 @@ export function Landing() {
           <h2 className="text-xl font-semibold">Terms of Service</h2>
           <p>By using igris, you agree to:</p>
           <ul className="list-disc pl-4 space-y-2">
-            <li>Use the service for personal, non-commercial use only</li>
-            <li>Not attempt to circumvent Spotify's terms of service</li>
-            <li>Respect Spotify's intellectual property rights</li>
-            <li>Not abuse or attempt to exploit the service</li>
+            <li>{`Use the service for personal, non-commercial use only`}</li>
+            <li>{`Not attempt to circumvent Spotify's terms of service`}</li>
+            <li>{`Respect Spotify's intellectual property rights`}</li>
+            <li>{`Not abuse or attempt to exploit the service`}</li>
           </ul>
           <p>This service is not affiliated with Spotify.</p>
           <button
@@ -75,7 +75,6 @@ export function Landing() {
       </div>
     </div>
   );
-
   if (session) {
     return (
       <main className="flex h-screen flex-col items-center justify-center">
