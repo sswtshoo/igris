@@ -147,7 +147,7 @@ function TopSongsContent() {
                 delay: baseDelay,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default  transiton focus:outline-none [transform-style:preserve-3d]"
+              className="p-2 sm:p-4 max-w-40 place-self-center sm:max-w-60 cursor-default  transiton focus:outline-none [transform-style:preserve-3d]"
             >
               <div className="flex flex-col items-start gap-y-2">
                 {song.album.images[0] && (

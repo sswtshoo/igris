@@ -8,11 +8,11 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Suspense } from 'react';
 import Lenis from 'lenis';
 import Link from 'next/link';
-import { Link as LinkIcon } from '@phosphor-icons/react';
+
 import Image from 'next/image';
 
 function SongsContent() {
@@ -22,7 +22,7 @@ function SongsContent() {
   const [loadedImages, setLoadedImages] = useState(new Set());
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
 
-  const { data: session, status } = useSession({
+  const { data: session, status: sessionStatus } = useSession({
     required: true,
   });
 
@@ -90,10 +90,6 @@ function SongsContent() {
     }
   }, [error]);
 
-  if (status === 'loading') {
-    return <Loader />;
-  }
-
   if (isLoading) {
     return <Loader />;
   }
@@ -141,9 +137,9 @@ function SongsContent() {
                 delay: baseDelay,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="p-2 sm:p-4 max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
+              className="p-2 sm:p-4 place-self-center max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
             >
-              <div className="flex flex-col items-start gap-y-2">
+              <div className="flex flex-col items-start justify-center gap-y-2">
                 {song.album.images[0] && (
                   <div className="image-icon relative group flex-shrink-0">
                     <Image
