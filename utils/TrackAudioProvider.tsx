@@ -74,8 +74,7 @@ export const TrackAudioProvider = ({
   const [deviceId, setDeviceId] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackProgress, setTrackProgress] = useState(0);
-  const [queue, setQueue] = useState<Track[]>([]);
-  const [currentIndex, setCurrentIndex] = useState<number>(-1);
+
   const [isReady, setIsReady] = useState(false);
 
   const { data: session } = useSession();
@@ -145,9 +144,6 @@ export const TrackAudioProvider = ({
             const queueData = await response.json();
             if (queueData.queue && Array.isArray(queueData.queue)) {
               const currentTrack = state.track_window.current_track;
-              const allTracks = [currentTrack, ...queueData.queue];
-              setQueue(allTracks);
-              setCurrentIndex(0);
             }
           }
         } catch (error) {
@@ -195,8 +191,6 @@ export const TrackAudioProvider = ({
         if (track) {
           const trackIndex = tracks.findIndex((t) => t.id === track.id);
           if (trackIndex !== -1) {
-            setQueue(tracks);
-            setCurrentIndex(trackIndex);
           }
 
           const response = await fetch(

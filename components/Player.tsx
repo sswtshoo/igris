@@ -91,7 +91,7 @@ export default function Player() {
     <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
       <div className="px-3 py-6">
         <motion.div
-          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/5 shadow-2xl flex flex-row items-center gap-x-4 justify-center cursor-default"
+          className="px-2 py-2 bg-white backdrop-blur-2xl border border-black/5 shadow-2xl flex flex-row items-center justify-between gap-x-2 cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -99,10 +99,7 @@ export default function Player() {
           onMouseLeave={() => setIsExpanded(false)}
           layout
         >
-          <motion.div
-            className="flex items-center gap-x-2 min-w-0 flex-shrink"
-            layout
-          >
+          <motion.div className="flex items-center gap-x-2 min-w-0" layout>
             <div className="flex-shrink-0">
               <Image
                 src={currentSong.album.images[0]?.url}
@@ -114,17 +111,17 @@ export default function Player() {
             </div>
 
             <motion.div
-              className="track-details max-w-36 sm:max-w-60 md:max-w-72 flex flex-col items-start justify-center gap-y-0 ml-1 h-full overflow-hidden"
+              className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 max-w-48 sm:max-w-72"
               layout
             >
               <motion.p
-                className="text-[0.7rem] font-medium text-zinc-950 truncate"
+                className="text-[0.7rem] font-medium text-zinc-950 w-full overflow-hidden text-ellipsis whitespace-nowrap"
                 layout
               >
                 {currentSong.name}
               </motion.p>
               <motion.p
-                className="text-[0.6rem] text-zinc-500 font-medium truncate"
+                className="text-[0.6rem] text-zinc-500 font-medium w-full overflow-hidden text-ellipsis whitespace-nowrap"
                 layout
               >
                 {currentSong.artists.map((artist) => artist.name).join(', ')}

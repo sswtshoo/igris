@@ -47,11 +47,13 @@ export default function Navbar() {
           </div>
 
           <div
-            className="flex group items-center justify-end gap-x-1 w-2/4 sm:w-4/6"
+            className="flex items-center justify-end gap-x-1 w-2/4 sm:w-4/6"
             onClick={() => signOut({ callbackUrl: '/signin' })}
           >
-            <button className="text-[0.7rem] font-medium hover:text-zinc-900 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_1px] group-hover:bg-[length:100%_1px] transition-all duration-500 ease-out">
-              <p>Logout</p>
+            <button className="text-[0.7rem] group font-medium hover:text-zinc-900 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_1px] group-hover:bg-[length:100%_1px] transition-all duration-500 ease-out">
+              <p className="hover:text-zinc-900 bg-left-bottom bg-gradient-to-r from-zinc-700 to-zinc-700 bg-no-repeat bg-[length:0%_1px] group-hover:bg-[length:100%_1px] transition-all duration-500 ease-out">
+                Logout
+              </p>
             </button>
           </div>
         </div>
