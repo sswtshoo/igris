@@ -13,8 +13,6 @@ import Link from 'next/link';
 import Lenis from 'lenis';
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { Link as LinkIcon } from '@phosphor-icons/react';
-import SpotifyLogo from '@/public/Primary_Logo_Black_PMS_C.svg';
 
 function TopSongsContent() {
   const searchParams = useSearchParams();
@@ -51,7 +49,7 @@ function TopSongsContent() {
 
     return () => {
       cancelAnimationFrame(rafId);
-      lenis.destroy;
+      lenis.destroy();
     };
   }, []);
 
@@ -147,19 +145,21 @@ function TopSongsContent() {
                 delay: baseDelay,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="p-2 sm:p-4 max-w-40 place-self-center sm:max-w-60 cursor-default  transiton focus:outline-none [transform-style:preserve-3d]"
+              className="p-2 sm:p-4 w-full place-self-center cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
             >
-              <div className="flex flex-col items-start gap-y-2">
+              <div className="flex flex-col items-start gap-y-2 w-full">
                 {song.album.images[0] && (
-                  <div className="image-icon relative group flex-shrink-0">
-                    <Image
-                      src={song.album.images[0].url}
-                      alt={song.name}
-                      width={300}
-                      height={300}
-                      className="w-full h-full object-cover aspect-square border border-black/5"
-                      loading="eager"
-                    />
+                  <div className="image-icon relative group w-full h-auto aspect-square">
+                    <div className="w-full h-0 pb-[100%] relative">
+                      <Image
+                        src={song.album.images[0].url}
+                        alt={song.name}
+                        fill
+                        sizes="(max-width: 640px) 160px, 240px"
+                        className="object-cover absolute inset-0 border border-black/5"
+                        loading="eager"
+                      />
+                    </div>
                     <Link
                       className="absolute top-2 right-2 h-6 w-auto px-1 bg-zinc-600/25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
                       href={song.external_urls.spotify}
@@ -192,7 +192,7 @@ function TopSongsContent() {
                     duration: 0.3,
                     delay: baseDelay + 0.8,
                   }}
-                  className="flex flex-col min-w-0 max-w-full mt-2"
+                  className="flex flex-col min-w-0 w-full mt-2"
                 >
                   <p className="text-[0.6rem] font-medium text-zinc-500 mt-2">
                     {index + 1 < 10 ? '0' + (index + 1) : index + 1}.

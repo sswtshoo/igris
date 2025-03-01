@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Loader from '@/components/ui/loader';
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import Lenis from 'lenis';
 import Link from 'next/link';
@@ -137,20 +137,22 @@ function SongsContent() {
                 delay: baseDelay,
                 ease: [0.23, 1, 0.32, 1],
               }}
-              className="p-2 sm:p-4 place-self-center max-w-40 sm:max-w-60 cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
+              className="p-2 sm:p-4 place-self-center w-full cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
             >
-              <div className="flex flex-col items-start justify-center gap-y-2">
+              <div className="flex flex-col items-start justify-center gap-y-2 w-full">
                 {song.album.images[0] && (
-                  <div className="image-icon relative group flex-shrink-0">
-                    <Image
-                      src={song.album.images[0].url}
-                      alt={song.name}
-                      width={300}
-                      height={300}
-                      className="w-full h-full object-cover aspect-square border border-black/5"
-                      loading="eager"
-                      onLoad={() => handleImageLoad(song.id)}
-                    />
+                  <div className="image-icon relative group w-full h-auto aspect-square">
+                    <div className="w-full h-0 pb-[100%] relative">
+                      <Image
+                        src={song.album.images[0].url}
+                        alt={song.name}
+                        fill
+                        sizes="(max-width: 640px) 160px, 240px"
+                        className="object-cover absolute inset-0 border border-black/5"
+                        loading="eager"
+                        onLoad={() => handleImageLoad(song.id)}
+                      />
+                    </div>
                     <Link
                       className="absolute top-2 right-2 h-6 w-auto px-1 bg-zinc-600/25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
                       href={song.external_urls.spotify}
@@ -184,7 +186,7 @@ function SongsContent() {
                       duration: 0.3,
                       delay: baseDelay + 0.3,
                     }}
-                    className="flex flex-col min-w-0 max-w-full mt-2"
+                    className="flex flex-col min-w-0 w-full mt-2"
                   >
                     <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
                       {song.name}
