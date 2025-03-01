@@ -111,7 +111,7 @@ export default function Player() {
             </div>
 
             <motion.div
-              className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 max-w-48 sm:max-w-72"
+              className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink-0 max-w-40 sm:max-w-72"
               layout
             >
               <motion.p
@@ -129,7 +129,7 @@ export default function Player() {
             </motion.div>
           </motion.div>
 
-          <div className="flex sm:hidden items-center justify-center gap-2 text-zinc-800">
+          <div className="flex sm:hidden items-center justify-center gap-2 text-zinc-800 ml-8">
             <SkipBack
               className="active:scale-90 transition h-3 sm:h-4"
               onClick={previousTrack}
