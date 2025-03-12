@@ -14,7 +14,7 @@ export function Landing() {
 
   const PrivacyModal = () => (
     <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+      <div className="bg-white p-6 rounded-sm shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] max-w-md mx-4">
         <div className="flex flex-col gap-4 text-base">
           <h2 className="text-xl font-semibold">Privacy Policy</h2>
           <p className="text-black">
@@ -54,7 +54,7 @@ export function Landing() {
 
   const TermsModal = () => (
     <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+      <div className="bg-white p-6 rounded-sm shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] max-w-md mx-4">
         <div className="flex flex-col gap-4 text-base">
           <h2 className="text-xl font-semibold">Terms of Service</h2>
           <p>By using igris, you agree to:</p>

@@ -149,7 +149,7 @@ function TopSongsContent() {
             >
               <div className="flex flex-col items-start gap-y-2 w-full">
                 {song.album.images[0] && (
-                  <div className="image-icon relative group w-full h-auto aspect-square">
+                  <div className="image-icon relative w-full h-auto aspect-square">
                     <div className="w-full h-0 pb-[100%] relative">
                       <Image
                         src={song.album.images[0].url}
@@ -160,29 +160,6 @@ function TopSongsContent() {
                         loading="eager"
                       />
                     </div>
-                    <Link
-                      className="absolute top-2 right-2 h-6 w-auto px-1 bg-zinc-600/25 backdrop-blur-lg flex items-center justify-center rounded-full text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-                      href={song.external_urls.spotify}
-                      prefetch={false}
-                      target="_blank"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <motion.div
-                        className="flex items-center gap-x-1"
-                        initial={{ width: 'auto' }}
-                        whileHover={{ width: 'auto' }}
-                      >
-                        <Image
-                          src="/Primary_Logo_White_CMYK.svg"
-                          alt="Spotify"
-                          width={12}
-                          height={12}
-                        />
-                        <p className="text-[0.6rem] font-semibold text-white">
-                          OPEN IN SPOTIFY
-                        </p>
-                      </motion.div>
-                    </Link>
                   </div>
                 )}
                 <motion.div
@@ -197,9 +174,30 @@ function TopSongsContent() {
                   <p className="text-[0.6rem] font-medium text-zinc-500 mt-2">
                     {index + 1 < 10 ? '0' + (index + 1) : index + 1}.
                   </p>
-                  <h2 className="font-medium text-[0.6rem] truncate text-zinc-900">
-                    {song.name}
-                  </h2>
+                  <div className="flex items-center justify-between">
+                    <h2 className="w-[90%] font-medium text-[0.6rem] truncate text-zinc-900">
+                      {song.name}
+                    </h2>
+                    <div className="relative group">
+                      <Link
+                        href={song.external_urls.spotify}
+                        prefetch={false}
+                        target="_blank"
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center cursor-pointer"
+                      >
+                        <Image
+                          src="/Primary_Logo_Black_PMS_C.svg"
+                          alt="Spotify"
+                          width={15}
+                          height={15}
+                        />
+                      </Link>
+                      <div className="absolute right-0 top-8 bg-zinc-50 border border-black/10 px-2 py-1 rounded-[2px] text-xs text-zinc-800 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                        OPEN IN SPOTIFY
+                      </div>
+                    </div>
+                  </div>
                   <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
                     {song.artists.map((artist) => artist.name).join(', ')}
                   </p>

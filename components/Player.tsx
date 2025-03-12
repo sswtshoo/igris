@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Player() {
   const {
@@ -164,7 +165,7 @@ export default function Player() {
               >
                 <SkipBack
                   size={16}
-                  className="hover:scale-110 transition duration-200"
+                  className="hover:scale-110 hover:text-zinc-950 transition duration-200"
                   onClick={previousTrack}
                   weight="fill"
                 />
@@ -172,20 +173,20 @@ export default function Player() {
                   {isPlaying ? (
                     <Pause
                       size={20}
-                      className="hover:scale-110 transition duration-200"
+                      className="hover:scale-110 hover:text-zinc-950 transition duration-200"
                       weight="fill"
                     />
                   ) : (
                     <Play
                       size={20}
-                      className="hover:scale-110 transition duration-200"
+                      className="hover:scale-110 hover:text-zinc-950 transition duration-200"
                       weight="fill"
                     />
                   )}
                 </button>
                 <SkipForward
                   size={16}
-                  className="hover:scale-110 transition duration-200"
+                  className="hover:scale-110 hover:text-zinc-950 transition duration-200"
                   onClick={() => nextTrack()}
                   weight="fill"
                 />
