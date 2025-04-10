@@ -31,7 +31,7 @@ function SignInContent() {
 
   return (
     <div className="flex flex-col gap-4 items-center">
-      <h1 className="text-2xl sm:text-3xl font-medium text-center text-zinc-950">
+      <h1 className="text-2xl sm:text-3xl font-medium text-center text-zinc-50">
         Igris for Spotify
       </h1>
       {error && (
@@ -46,8 +46,7 @@ function SignInContent() {
           color: 'rgb(9, 9, 11)',
         }}
         whileHover={{
-          backgroundColor: 'rgb(24, 24, 27)',
-          color: 'rgb(228, 228, 231)',
+          backgroundColor: 'rgb(228, 228, 231)',
           scale: 1,
         }}
         whileTap={{
@@ -55,16 +54,16 @@ function SignInContent() {
           color: 'rgb(228, 228, 231)',
           scale: 0.95,
         }}
-        transition={{ duration: 0.15, ease: 'easeIn' }}
-        className="border-[1px] border-zinc-400 border-opacity-10 bg-white text-sm p-2 rounded-sm shadow-md font-[450] hover:bg-zinc-300 transition-colors"
+        transition={{ duration: 0.15, ease: 'easeInOut' }}
+        className="border-[1px] border-zinc-400 hover:bg-zinc-100 border-opacity-10 bg-white text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
       >
         Sign in with Spotify
       </motion.button>
       {pageEnable && (
         <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-4">
+          <div className="bg-zinc-950 p-6 rounded-lg shadow-lg max-w-md mx-4">
             <div className="flex flex-col gap-4 text-base">
-              <p className="text-black">
+              <p className="text-zinc-950">
                 This project does not save any Spotify data. When you log-in
                 with your Spotify account, it creates a special, one-time token
                 to read your top played tracks, as well as your liked tracks.
@@ -78,7 +77,7 @@ function SignInContent() {
                 </span>
               </p>
               <button
-                className="bg-black text-white rounded-md px-4 py-2 hover:bg-black/90 transition-colors"
+                className="bg-zinc-50 text-zinc-950 rounded-md px-4 py-2 hover:bg-black/90 transition-colors"
                 onClick={() => setPageEnable(false)}
               >
                 Close
@@ -93,7 +92,7 @@ function SignInContent() {
 
 export default function SignInPage() {
   return (
-    <div className="p-4 flex items-center justify-center h-screen">
+    <div className="p-4 flex items-center justify-center h-screen bg-[#111110]">
       <Suspense fallback={<Loader />}>
         <SignInContent />
       </Suspense>

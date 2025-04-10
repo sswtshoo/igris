@@ -17,15 +17,14 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
-          rel="preload"
-          href="/fonts/CabinetGrotesk-Variable.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+          rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning className="bg-white">
+      <body suppressHydrationWarning className="bg-[#111110]">
         <Providers>
           <Navbar />
           <main className="min-h-screen">{children}</main>

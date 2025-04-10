@@ -9,7 +9,6 @@ import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import Loader from '@/components/ui/loader';
 import { type Track } from '@/types/spotify';
-import Link from 'next/link';
 import Lenis from 'lenis';
 import { useEffect } from 'react';
 import Image from 'next/image';
@@ -100,7 +99,7 @@ function TopSongsContent() {
                 animate={{
                   color:
                     timeRange === range.value
-                      ? 'rgb(9, 9, 11)'
+                      ? 'rgb(244, 244, 245)'
                       : 'rgb(113, 113, 122)',
                 }}
                 transition={{
@@ -156,7 +155,7 @@ function TopSongsContent() {
                         alt={song.name}
                         fill
                         sizes="(max-width: 640px) 160px, 240px"
-                        className="object-cover absolute inset-0 border border-black/5"
+                        className="object-cover absolute inset-0 border border-black/5 rounded-xl"
                         loading="eager"
                       />
                     </div>
@@ -175,28 +174,9 @@ function TopSongsContent() {
                     {index + 1 < 10 ? '0' + (index + 1) : index + 1}.
                   </p>
                   <div className="flex items-center justify-between">
-                    <h2 className="w-[90%] font-medium text-[0.6rem] truncate text-zinc-900">
+                    <h2 className="w-[90%] font-medium text-[0.75rem] truncate text-zinc-100">
                       {song.name}
                     </h2>
-                    <div className="relative group">
-                      <Link
-                        href={song.external_urls.spotify}
-                        prefetch={false}
-                        target="_blank"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center cursor-pointer"
-                      >
-                        <Image
-                          src="/Primary_Logo_Black_PMS_C.svg"
-                          alt="Spotify"
-                          width={15}
-                          height={15}
-                        />
-                      </Link>
-                      <div className="absolute right-0 top-8 bg-zinc-50 border border-black/10 px-2 py-1 rounded-[2px] text-xs text-zinc-800 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                        OPEN IN SPOTIFY
-                      </div>
-                    </div>
                   </div>
                   <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
                     {song.artists.map((artist) => artist.name).join(', ')}

@@ -95,7 +95,7 @@ export const TrackAudioProvider = ({
         getOAuthToken: (cb) => {
           cb(session.accessToken as string);
         },
-        volume: 0.5,
+        volume: 1,
       });
 
       setPlayer(player);
