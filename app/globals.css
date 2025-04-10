@@ -8,22 +8,19 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-optical-sizing: auto;
+}
+
+@theme {
+  --bg-color-zinc: '#111110';
+  --text-color-zinc: '#111110';
 }
 
 @layer base {
   html {
     font-family: 'GeneralSans-Variable', sans-serif;
   }
-}
-
-@font-face {
-  font-family: 'GeneralSans-Variable';
-  src:
-    url('../public/fonts/GeneralSans-Variable.woff2') format('woff2'),
-    url('../public/fonts/GeneralSans-Variable.woff') format('.woff'),
-    url('../public/fonts/GeneralSans-Variable.ttf') format('truetype');
-  font-display: swap;
-  font-style: normal;
 }
 
 *::-webkit-scrollbar {

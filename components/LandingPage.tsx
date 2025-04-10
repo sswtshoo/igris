@@ -12,12 +12,67 @@ export function Landing() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
+  // const modalVariants = {
+  //   collapsed: {
+  //     width: '0',
+  //     height: '0',
+  //     zIndex: '0',
+  //     opacity: '0',
+  //     inset: '0',
+  //     transition: {
+  //       type: 'spring',
+  //       bounce: 0.25,
+  //     },
+  //   },
+  //   expanded: {
+  //     width: 'auto',
+  //     height: 'auto',
+  //     zIndex: '20',
+  //     opacity: '1',
+  //     inset: '0',
+  //     transition: {
+  //       type: 'spring',
+  //       bounce: 0.25,
+  //     },
+  //   },
+  // };
+
+  const modalVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.9,
+      transition: {
+        duration: 0.25,
+        ease: 'easeOut',
+      },
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.25,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   const PrivacyModal = () => (
-    <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white p-6 rounded-sm shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] max-w-md mx-4">
+    <motion.div
+      className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center"
+      initial={false}
+      animate={{ opacity: showPrivacy ? 1 : 0 }}
+      transition={{ duration: 0.2 }}
+      style={{ pointerEvents: showPrivacy ? 'auto' : 'none' }}
+    >
+      <motion.div
+        className="bg-white p-6 rounded-sm shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] max-w-md mx-4"
+        variants={modalVariants}
+        initial="hidden"
+        animate={showPrivacy ? 'visible' : 'hidden'}
+      >
         <div className="flex flex-col gap-4 text-base">
-          <h2 className="text-xl font-semibold">Privacy Policy</h2>
-          <p className="text-black">
+          <h2 className="text-xl font-bold">Privacy Policy</h2>
+          <p className="text-black font-normal">
             This project does not save any Spotify data. When you log-in with
             your Spotify account, it creates a special, one-time token to read
             your top played tracks, as well as your liked tracks. That access
@@ -48,15 +103,26 @@ export function Landing() {
             Got it
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 
   const TermsModal = () => (
-    <div className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white p-6 rounded-sm shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] max-w-md mx-4">
+    <motion.div
+      className="fixed inset-0 z-20 bg-white/80 backdrop-blur-sm flex items-center justify-center"
+      initial={false}
+      animate={{ opacity: showTerms ? 1 : 0 }}
+      transition={{ duration: 0.2 }}
+      style={{ pointerEvents: showTerms ? 'auto' : 'none' }}
+    >
+      <motion.div
+        className="bg-white p-6 rounded-sm shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] max-w-md mx-4"
+        variants={modalVariants}
+        initial="hidden"
+        animate={showTerms ? 'visible' : 'hidden'}
+      >
         <div className="flex flex-col gap-4 text-base">
-          <h2 className="text-xl font-semibold">Terms of Service</h2>
+          <h2 className="text-xl font-bold">Terms of Service</h2>
           <p>By using igris, you agree to:</p>
           <ul className="list-disc pl-4 space-y-2">
             <li>{`Use the service for personal, non-commercial use only`}</li>
@@ -72,12 +138,12 @@ export function Landing() {
             Close
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
   if (session) {
     return (
-      <main className="flex h-screen flex-col items-center justify-center">
+      <main className="flex h-screen bg-zinc-950 flex-col items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-zinc-800"></h1>
           <p className="mb-4">You are logged in as {session.user?.name}</p>
@@ -103,7 +169,7 @@ export function Landing() {
               stiffness: 300,
               damping: 20,
             }}
-            className="border border-black/5 px-4 py-2 bg-white rounded-sm font-[450] shadow-md"
+            className="border border-black/5 px-4 py-2 bg-zinc-900 rounded-sm font-[450] shadow-md"
           >
             <Link href={'/songs'}>Go to songs</Link>
           </motion.button>
@@ -125,20 +191,16 @@ export function Landing() {
             color: 'rgb(9, 9, 11)',
           }}
           whileHover={{
-            backgroundColor: 'rgb(24, 24, 27)',
-            color: 'rgb(228, 228, 231)',
+            backgroundColor: 'rgb(228, 228, 231)',
+            scale: 1,
           }}
           whileTap={{
             backgroundColor: 'rgb(24, 24, 27)',
             color: 'rgb(228, 228, 231)',
+            scale: 0.95,
           }}
-          transition={{
-            duration: 0.1,
-            type: 'spring',
-            stiffness: 300,
-            damping: 20,
-          }}
-          className="px-4 py-2 rounded-sm font-[450] text-zinc-900 bg-zinc-100 transition-colors border border-black/5 shadow-md"
+          transition={{ duration: 0.15, ease: 'easeInOut' }}
+          className="border-[1px] border-zinc-400 hover:bg-zinc-100 border-opacity-10 bg-white text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
         >
           Sign in with Spotify
         </motion.button>
