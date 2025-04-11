@@ -143,7 +143,7 @@ export function Landing() {
   );
   if (session) {
     return (
-      <main className="flex h-screen bg-zinc-950 flex-col items-center justify-center">
+      <main className="flex h-screen bg-dark flex-col items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-zinc-800"></h1>
           <p className="mb-4">You are logged in as {session.user?.name}</p>
@@ -179,28 +179,26 @@ export function Landing() {
   }
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center">
+    <main className="flex h-screen w-screen flex-col items-center justify-center bg-dark">
       <div className="text-center">
-        <h1 className="text-xl sm:text-xl lg:text-2xl font-medium mb-2 text-zinc-950">
+        <h1 className="text-xl sm:text-xl lg:text-2xl font-medium mb-2 text-light">
           Igris - Your Liked and Top Played Tracks
         </h1>
         <motion.button
           onClick={() => signIn('spotify', { callbackUrl: '/songs' })}
           initial={{
-            backgroundColor: 'rgb(255, 255, 255)',
-            color: 'rgb(9, 9, 11)',
+            backgroundColor: 'rgb(17, 17, 16)',
+            color: 'rgb(255, 255, 255)',
           }}
           whileHover={{
-            backgroundColor: 'rgb(228, 228, 231)',
+            backgroundColor: 'rgb(34, 34, 33)',
             scale: 1,
           }}
           whileTap={{
-            backgroundColor: 'rgb(24, 24, 27)',
-            color: 'rgb(228, 228, 231)',
             scale: 0.95,
           }}
           transition={{ duration: 0.15, ease: 'easeInOut' }}
-          className="border-[1px] border-zinc-400 hover:bg-zinc-100 border-opacity-10 bg-white text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
+          className="border-[1px] border-zinc-400 text-light border-opacity-10 text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
         >
           Sign in with Spotify
         </motion.button>

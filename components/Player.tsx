@@ -38,14 +38,14 @@ export default function Player() {
       width: 'auto',
       transition: {
         ease: 'easeOut',
-        duration: 0.25,
+        duration: 0.3,
       },
     },
     expanded: {
       width: 'auto',
       transition: {
         ease: 'easeOut',
-        duration: 0.25,
+        duration: 0.3,
       },
     },
   };
@@ -82,7 +82,7 @@ export default function Player() {
     <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
       <div className="px-3 py-6">
         <motion.div
-          className="px-2 py-2 bg-zinc-950 bg-opacity-20 backdrop-blur-2xl border  border-white/5 shadow-2xl rounded-lg flex flex-row items-center justify-between gap-x-2 cursor-default"
+          className="px-2 py-2 bg-zinc-950 bg-opacity-20 backdrop-blur-2xl border border-white/5 shadow-2xl rounded-lg flex flex-row items-center justify-between gap-x-2 cursor-default"
           variants={containerVariants}
           initial="collapsed"
           animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -102,7 +102,7 @@ export default function Player() {
             </div>
 
             <motion.div
-              className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink-0 max-w-40 sm:max-w-72"
+              className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink-0 max-w-40 sm:max-w-72 md:max-w-96"
               layout
             >
               <motion.p
@@ -146,7 +146,7 @@ export default function Player() {
           <AnimatePresence mode="popLayout">
             {isExpanded && (
               <motion.div
-                className="hidden sm:flex items-center justify-center gap-2 text-zinc-200 "
+                className="hidden sm:flex items-center justify-center gap-2 text-zinc-300"
                 variants={controlsVariants}
                 initial="initial"
                 animate="animate"
@@ -155,28 +155,28 @@ export default function Player() {
               >
                 <SkipBack
                   size={16}
-                  className="hover:scale-110 hover:text-zinc-950 transition duration-200"
+                  className="hover:scale-110 hover:text-zinc-100 transition duration-200"
                   onClick={previousTrack}
                   weight="fill"
                 />
                 <button onClick={handlePlayPause}>
                   {isPlaying ? (
                     <Pause
-                      size={20}
-                      className="hover:scale-110 hover:text-zinc-950 transition duration-200"
+                      size={24}
+                      className="hover:scale-110 hover:text-zinc-100 transition duration-200"
                       weight="fill"
                     />
                   ) : (
                     <Play
-                      size={20}
-                      className="hover:scale-110 hover:text-zinc-950 transition duration-200"
+                      size={24}
+                      className="hover:scale-110 hover:text-zinc-100 transition duration-200"
                       weight="fill"
                     />
                   )}
                 </button>
                 <SkipForward
-                  size={16}
-                  className="hover:scale-110 hover:text-zinc-950 transition duration-200"
+                  size={20}
+                  className="hover:scale-110 hover:text-zinc-100 transition duration-200"
                   onClick={() => nextTrack()}
                   weight="fill"
                 />

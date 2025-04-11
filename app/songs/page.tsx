@@ -11,7 +11,6 @@ import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import Lenis from 'lenis';
-import Link from 'next/link';
 
 import Image from 'next/image';
 
@@ -48,7 +47,7 @@ function SongsContent() {
 
     return () => {
       cancelAnimationFrame(rafId);
-      lenis.destroy;
+      lenis.destroy();
     };
   }, []);
 
@@ -112,30 +111,25 @@ function SongsContent() {
 
   const songs: Track[] = data?.tracks || [];
   return (
-    <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-16 mb-16 [perspective:1000px]">
+    <div className="px-8 md:px-8 py-4 sm:py-6 max-w-screen-2xl mx-auto w-full mt-16 sm:mt-20 overflow-hidden">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 sm:gap-16 mb-16 [perspective:1000px]">
         {songs.map((song, index) => {
-          const baseDelay = 1.1 - 1 / Math.pow(1.1, index);
           return (
             <motion.div
-              key={song.id}
+              key={index}
               onClick={() => handlePlay(song)}
               initial={{
                 opacity: 0,
                 scale: 1.1,
-                y: -5,
-                z: -100,
               }}
               animate={{
                 opacity: 1,
                 scale: 1,
-                y: 0,
-                z: 0,
               }}
               transition={{
-                duration: 1.2,
-                delay: baseDelay,
-                ease: [0.23, 1, 0.32, 1],
+                duration: 0.5,
+                type: 'spring',
+                bounce: 0.1,
               }}
               className="p-2 sm:p-4 place-self-center w-full cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
             >
@@ -148,33 +142,31 @@ function SongsContent() {
                         alt={song.name}
                         fill
                         sizes="(max-width: 640px) 160px, 240px"
-                        className="object-cover absolute inset-0 border border-white/5 rounded-xl shadow-zinc-800 shadow-sm"
+                        className="object-cover absolute inset-0 border border-white/10 rounded-xl"
                         loading="eager"
                         onLoad={() => handleImageLoad(song.id)}
                       />
                     </div>
                   </div>
                 )}
-                {allImagesLoaded && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: 0.3,
-                      delay: baseDelay + 0.3,
-                    }}
-                    className="flex flex-col min-w-0 w-full mt-2"
-                  >
-                    <div className="flex items-center justify-between">
-                      <h2 className="w-[90%] font-medium text-[0.75rem] truncate text-zinc-100">
-                        {song.name}
-                      </h2>
-                    </div>
-                    <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
-                      {song.artists.map((artist) => artist.name).join(', ')}
-                    </p>
-                  </motion.div>
-                )}
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.3,
+                  }}
+                  className="flex flex-col min-w-0 w-full mt-2"
+                >
+                  <div className="flex items-center justify-between">
+                    <h2 className="w-[90%] font-medium text-[0.75rem] truncate text-zinc-100">
+                      {song.name}
+                    </h2>
+                  </div>
+                  <p className="text-[0.6rem] text-zinc-400 font-normal truncate">
+                    {song.artists.map((artist) => artist.name).join(', ')}
+                  </p>
+                </motion.div>
               </div>
             </motion.div>
           );

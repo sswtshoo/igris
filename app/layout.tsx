@@ -24,7 +24,7 @@ export default async function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning className="bg-[#111110]">
+      <body suppressHydrationWarning className="bg-dark">
         <Providers>
           <Navbar />
           <main className="min-h-screen">{children}</main>
