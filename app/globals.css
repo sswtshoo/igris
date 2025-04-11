@@ -4,22 +4,22 @@
 
 html,
 body {
-  height: 100vh;
+  height: auto;
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
-}
-
-@theme {
-  --bg-color-zinc: '#111110';
-  --text-color-zinc: '#111110';
+  overflow-y: auto;
 }
 
 @layer base {
-  html {
-    font-family: 'GeneralSans-Variable', sans-serif;
+  :root {
+    --color-dark: rgb(17, 17, 16);
+    --color-light: rgb(250, 250, 250);
+    --color-hover: rgb(50, 51, 51);
+    --color-text-light: rgb(129, 129, 129);
+    --color-darker: rgb(0, 0, 1);
+    font-family: 'Inter', sans-serif;
   }
 }
 

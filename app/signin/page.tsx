@@ -42,20 +42,18 @@ function SignInContent() {
       <motion.button
         onClick={() => signIn('spotify', { callbackUrl: '/songs' })}
         initial={{
-          backgroundColor: 'rgb(255, 255, 255)',
-          color: 'rgb(9, 9, 11)',
+          backgroundColor: 'rgb(17, 17, 16)',
+          color: 'rgb(255, 255, 255)',
         }}
         whileHover={{
-          backgroundColor: 'rgb(228, 228, 231)',
+          backgroundColor: 'rgb(34, 34, 33)',
           scale: 1,
         }}
         whileTap={{
-          backgroundColor: 'rgb(24, 24, 27)',
-          color: 'rgb(228, 228, 231)',
           scale: 0.95,
         }}
         transition={{ duration: 0.15, ease: 'easeInOut' }}
-        className="border-[1px] border-zinc-400 hover:bg-zinc-100 border-opacity-10 bg-white text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
+        className="border-[1px] border-zinc-400 text-light border-opacity-10 text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
       >
         Sign in with Spotify
       </motion.button>
@@ -92,7 +90,7 @@ function SignInContent() {
 
 export default function SignInPage() {
   return (
-    <div className="p-4 flex items-center justify-center h-screen bg-[#111110]">
+    <div className="p-4 flex items-center justify-center h-screen bg-dark">
       <Suspense fallback={<Loader />}>
         <SignInContent />
       </Suspense>

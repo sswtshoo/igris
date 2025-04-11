@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import useSWR from 'swr';
 import { fetcher } from '@/utils/fetcher';
 import { useSession } from 'next-auth/react';
@@ -15,7 +16,8 @@ import Image from 'next/image';
 
 function TopSongsContent() {
   const searchParams = useSearchParams();
-  const timeRange = searchParams.get('range') ?? 'short_term';
+  // const timeRange = searchParams.get('range') ?? 'short_term';
+  const [timeRange, setTimeRange] = useState('short_term');
 
   const { playTrack, isPlaying, pauseTrack, currentSong } = useTrackAudio();
   const { data: session } = useSession({ required: true });
@@ -67,6 +69,9 @@ function TopSongsContent() {
   ];
 
   const songs: Track[] = data?.tracks || [];
+  const selectedIndex = timeRanges.findIndex(
+    (range) => range.value === timeRange
+  );
 
   if (isLoading) return <Loader />;
   if (error)
@@ -79,7 +84,15 @@ function TopSongsContent() {
   return (
     <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
       <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-8 mb-4">
-        <div className="flex items-center">
+        <div className="grid grid-cols-3 p-1 mx-4 relative">
+          <div
+            className="absolute bottom-1 left-1 top-1 right-1 rounded-full bg-zinc-50"
+            style={{
+              width: `calc(${100 / 3}% - 5px)`,
+              transform: `translateX(calc(${selectedIndex} * (100% + 3px)))`,
+              transition: 'transform 0.25s ease',
+            }}
+          />
           {timeRanges.map((range) => (
             <button
               key={range.value}
@@ -87,30 +100,15 @@ function TopSongsContent() {
                 const url = new URL(window.location.href);
                 url.searchParams.set('range', range.value);
                 window.history.pushState({}, '', url);
+                setTimeRange(range.value);
               }}
-              className="w-20"
+              className={`relative h-8 text-xs px-2 py-1 font-normal ${
+                timeRange === range.value
+                  ? 'text-darker'
+                  : 'text-textlight hover:text-light transition-colors duration-200'
+              }`}
             >
-              <motion.span
-                className={`block text-xs w-full ${
-                  timeRange === range.value
-                    ? 'text-zinc-950 font-[550]'
-                    : 'hover:text-zinc-700 text-zinc-400 font-normal text-xs'
-                }`}
-                animate={{
-                  color:
-                    timeRange === range.value
-                      ? 'rgb(244, 244, 245)'
-                      : 'rgb(113, 113, 122)',
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 20,
-                }}
-                layout
-              >
-                {range.label}
-              </motion.span>
+              <span className="relative">{range.label}</span>
             </button>
           ))}
         </div>
@@ -121,17 +119,13 @@ function TopSongsContent() {
         key={timeRange}
       >
         {songs.map((song, index) => {
-          const baseDelay = 1.1 - 1 / Math.pow(1.1, index);
-
           return (
             <motion.div
-              key={song.id}
+              key={index}
               onClick={() => handlePlay(song)}
               initial={{
                 opacity: 0,
                 scale: 1.1,
-                y: -5,
-                z: -100,
               }}
               animate={{
                 opacity: 1,
@@ -140,9 +134,9 @@ function TopSongsContent() {
                 z: 0,
               }}
               transition={{
-                duration: 1.2,
-                delay: baseDelay,
-                ease: [0.23, 1, 0.32, 1],
+                duration: 0.75,
+                type: 'spring',
+                bounce: 0.3,
               }}
               className="p-2 sm:p-4 w-full place-self-center cursor-default transiton focus:outline-none [transform-style:preserve-3d]"
             >
@@ -166,7 +160,6 @@ function TopSongsContent() {
                   animate={{ opacity: 1 }}
                   transition={{
                     duration: 0.3,
-                    delay: baseDelay + 0.8,
                   }}
                   className="flex flex-col min-w-0 w-full mt-2"
                 >
