@@ -82,7 +82,7 @@ function TopSongsContent() {
     );
 
   return (
-    <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-16 sm:mt-20">
+    <div className="px-8 md:px-8 py-4 sm:py-6 max-w-[1560px] mx-auto w-full mt-8 sm:mt-20">
       <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-8 mb-4">
         <div className="grid grid-cols-3 p-1 mx-4 relative">
           <div
