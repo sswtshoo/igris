@@ -2,10 +2,11 @@
 
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { Play, Pause, SkipForward, SkipBack } from '@phosphor-icons/react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useState } from 'react';
+import { motion, AnimatePresence, MotionConfig } from 'motion/react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { prominent } from 'color.js';
 
 export default function Player() {
   const {
@@ -18,12 +19,12 @@ export default function Player() {
     nextTrack,
     previousTrack,
   } = useTrackAudio();
-  const [isExpanded, setIsExpanded] = useState(false);
+
+  const [isClicked, setIsClicked] = useState(false);
   const { data: session } = useSession();
-
-  if (!session) return null;
-
-  if (!currentSong) return null;
+  const [dominantColor, setDominantColor] = useState(
+    'rgba(255, 255, 255, 0.6)'
+  );
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -33,158 +34,270 @@ export default function Player() {
     }
   };
 
-  const containerVariants = {
-    collapsed: {
-      width: 'auto',
-      transition: {
-        ease: 'easeOut',
-        duration: 0.3,
-      },
-    },
-    expanded: {
-      width: 'auto',
-      transition: {
-        ease: 'easeOut',
-        duration: 0.3,
-      },
-    },
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
+
+    if (currentSong) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentSong.name,
+        artist: currentSong.artists?.map((a) => a.name).join(', '),
+        artwork: currentSong.album?.images?.map((img) => ({
+          src: img.url,
+          sizes: `${img.width}x${img.height}`,
+          type: 'image/jpeg',
+        })),
+      });
+    }
+  }, [isPlaying, currentSong]);
+
+  useEffect(() => {
+    if (currentSong?.album.images[0]?.url) {
+      extractDominantColor(currentSong.album.images[0].url);
+    }
+  }, [currentSong]);
+
+  useEffect(() => {
+    if (currentSong?.album.images[0]?.url) {
+      extractDominantColor(currentSong?.album.images[0].url);
+    }
+  }, [currentSong]);
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => {
+        if (!isPlaying) {
+          playTrack();
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        if (isPlaying) {
+          pauseTrack();
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+      navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
+
+      return () => {
+        navigator.mediaSession.setActionHandler('play', null);
+        navigator.mediaSession.setActionHandler('pause', null);
+        navigator.mediaSession.setActionHandler('nexttrack', null);
+        navigator.mediaSession.setActionHandler('previoustrack', null);
+      };
+    }
+  }, [isPlaying, playTrack, pauseTrack, nextTrack, previousTrack]);
+
+  const extractDominantColor = async (imageUrl: string) => {
+    try {
+      const colors = await prominent(imageUrl, { amount: 1 });
+
+      const [r, g, b] = colors;
+      const rgbaColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
+
+      setDominantColor(rgbaColor);
+      console.log('Extracted color:', rgbaColor);
+    } catch (error) {
+      console.error('Error extracting color:', error);
+    }
   };
 
-  const controlsVariants = {
-    initial: {
-      opacity: 0,
-      width: 0,
-      marginLeft: 0,
-      transition: {
-        duration: 0.25,
-        ease: 'easeOut',
-      },
-    },
-    animate: {
-      opacity: 1,
-      width: 'auto',
-      transition: {
-        duration: 0.25,
-        ease: 'easeOut',
-      },
-    },
-    exit: {
-      opacity: 0,
-      width: 0,
-      transition: {
-        duration: 0.2,
-        ease: 'easeOut',
-      },
-    },
-  };
+  if (!session) return null;
+
+  if (!currentSong) return null;
 
   return (
-    <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
-      <div className="px-3 py-6">
-        <motion.div
-          className="px-2 py-2 bg-zinc-950 bg-opacity-20 backdrop-blur-2xl border border-white/5 shadow-2xl rounded-lg flex flex-row items-center justify-between gap-x-2 cursor-default"
-          variants={containerVariants}
-          initial="collapsed"
-          animate={isExpanded ? 'expanded' : 'collapsed'}
-          onMouseEnter={() => setIsExpanded(true)}
-          onMouseLeave={() => setIsExpanded(false)}
-          layout
-        >
-          <motion.div className="flex items-center gap-x-2 min-w-0" layout>
-            <div className="flex-shrink-0">
-              <Image
-                src={currentSong.album.images[0]?.url}
-                alt={currentSong.name}
-                height={300}
-                width={300}
-                className="sm:h-12 sm:w-12 w-8 h-8 aspect-square mr-0 object-cover rounded-[4px]"
-              />
-            </div>
+    <MotionConfig transition={{ type: 'spring', duration: 0.5, bounce: 0 }}>
+      <AnimatePresence mode="popLayout">
+        {!isClicked && (
+          <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
+            <div className="px-3 py-6">
+              <motion.div
+                className="backdrop-blur-2xl shadow-2xl rounded-lg flex flex-row items-center justify-center gap-4 p-2 relative overflow-hidden bg-opacity-10"
+                style={{
+                  backgroundImage: `url(${currentSong.album.images[0]?.url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+                layoutId="player-wrapper"
+              >
+                <motion.div
+                  className={`absolute inset-0 bg-opacity-10 backdrop-blur-[80px]`}
+                  style={{ backgroundColor: dominantColor }}
+                  layoutId="dominant-color"
+                />
+                <motion.div
+                  className="absolute inset-0 bg-black/15"
+                  layoutId="black-overlay"
+                />
+                <motion.div
+                  className="flex items-center gap-x-2 min-w-0"
+                  layout
+                >
+                  <motion.div
+                    className="flex-shrink-0 z-10"
+                    layoutId={'song-image'}
+                  >
+                    <motion.img
+                      src={currentSong.album.images[0]?.url}
+                      alt={currentSong.name}
+                      className="sm:h-14 sm:w-14 w-8 h-8 aspect-square mr-0 object-cover rounded-[4px]"
+                      onClick={() => setIsClicked(true)}
+                    />
+                  </motion.div>
 
-            <motion.div
-              className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink-0 max-w-40 sm:max-w-72 md:max-w-96"
-              layout
-            >
-              <motion.p
-                className="text-sm font-[550] text-zinc-100 w-full overflow-hidden text-ellipsis whitespace-nowrap"
-                layout
+                  <motion.div
+                    className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink-0 max-w-40 sm:max-w-72 md:max-w-96 z-10"
+                    layout
+                  >
+                    <motion.p
+                      className="text-sm font-bold text-zinc-50 w-full drop-shadow-2xl overflow-hidden text-ellipsis whitespace-nowrap"
+                      layoutId="currentsong"
+                    >
+                      {currentSong.name}
+                    </motion.p>
+                    <motion.p
+                      className="text-[0.6rem] text-zinc-50 font-semibold drop-shadow-2xl w-full overflow-hidden text-ellipsis whitespace-nowrap"
+                      layoutId="currentartist"
+                      key={currentSong.artists[0].id}
+                    >
+                      {currentSong.artists
+                        .map((artist) => artist.name)
+                        .join(', ')}
+                    </motion.p>
+                  </motion.div>
+                </motion.div>
+
+                <div className="flex items-center justify-center gap-2 text-zinc-50 z-10">
+                  <motion.div layoutId="skipback">
+                    <SkipBack
+                      className="active:scale-90 transition"
+                      onClick={previousTrack}
+                      weight="fill"
+                      size={16}
+                    />
+                  </motion.div>
+
+                  <button onClick={handlePlayPause}>
+                    {isPlaying ? (
+                      <motion.div layoutId="pause">
+                        <Pause
+                          className=" active:scale-90 transition drop-shadow-md"
+                          weight="fill"
+                          size={22}
+                        />
+                      </motion.div>
+                    ) : (
+                      <motion.div layoutId="play">
+                        <Play
+                          className="active:scale-90 transition"
+                          weight="fill"
+                          size={22}
+                        />
+                      </motion.div>
+                    )}
+                  </button>
+                  <motion.div layoutId="skipforward">
+                    <SkipForward
+                      className="active:scale-90 transition"
+                      onClick={() => nextTrack()}
+                      weight="fill"
+                      size={16}
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        )}
+        {isClicked && (
+          <motion.div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
+            <motion.div className="">
+              <motion.div
+                className="backdrop-blur-2xl shadow-2xl rounded-3xl flex flex-col items-center justify-center gap-y-4 p-3 relative overflow-hidden bg-opacity-10"
+                style={{
+                  backgroundImage: `url(${currentSong.album.images[0]?.url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundBlendMode: 'hue',
+                }}
+                layoutId="player-wrapper"
               >
-                {currentSong.name}
-              </motion.p>
-              <motion.p
-                className="text-[0.6rem] text-zinc-300 font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap"
-                layout
-              >
-                {currentSong.artists.map((artist) => artist.name).join(', ')}
-              </motion.p>
+                <motion.div
+                  className={`absolute inset-0 bg-opacity-10 backdrop-blur-[80px]`}
+                  style={{ backgroundColor: dominantColor }}
+                  layoutId="dominant-color"
+                />
+                <motion.div
+                  className="absolute inset-0 bg-black/10"
+                  layoutId="black-overlay"
+                />
+                <motion.div
+                  className="flex-shrink-0 z-10"
+                  layoutId={'song-image'}
+                >
+                  <motion.img
+                    src={currentSong.album.images[0]?.url}
+                    alt={currentSong.name}
+                    height={300}
+                    width={300}
+                    className="sm:h-60 sm:w-60 w-16 h-16 aspect-square mr-0 object-cover rounded-xl shadow-lg"
+                    onClick={() => setIsClicked(false)}
+                  />
+                </motion.div>
+                <motion.div
+                  className="track-details flex flex-col items-center justify-center text-center min-w-0 flex-shrink-0 max-w-40 sm:max-w-72 md:max-w-96 z-50"
+                  layout
+                >
+                  <motion.p
+                    className="text-lg font-semibold max-w-56 marquee text-zinc-50 drop-shadow-md w-full overflow-hidden text-ellipsis whitespace-nowrap"
+                    layoutId="currentsong"
+                    key={currentSong.name}
+                  >
+                    {currentSong.name}
+                  </motion.p>
+                  <motion.p
+                    className="text-xs text-zinc-200 font-medium w-full drop-shadow-md overflow-hidden text-ellipsis whitespace-nowrap"
+                    layoutId="currentartist"
+                    key={currentSong.artists[0].id}
+                  >
+                    {currentSong.artists
+                      .map((artist) => artist.name)
+                      .join(', ')}
+                  </motion.p>
+                </motion.div>
+                <div className="flex items-center justify-center gap-8 text-zinc-50 mt-2 mb-4 z-10">
+                  <motion.button layoutId="skipback" onClick={previousTrack}>
+                    <SkipBack weight="fill" size={24} />
+                  </motion.button>
+
+                  <button onClick={handlePlayPause}>
+                    {isPlaying ? (
+                      <motion.div layoutId="pause">
+                        <Pause weight="fill" size={32} />
+                      </motion.div>
+                    ) : (
+                      <motion.div layoutId="play">
+                        <Play weight="fill" size={32} />
+                      </motion.div>
+                    )}
+                  </button>
+
+                  <motion.div layoutId="skipforward">
+                    <SkipForward
+                      onClick={() => nextTrack()}
+                      weight="fill"
+                      size={24}
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
-
-          <div className="flex sm:hidden items-center justify-center gap-2 text-zinc-200 ml-8">
-            <SkipBack
-              className="active:scale-90 transition h-3 sm:h-4"
-              onClick={previousTrack}
-              weight="fill"
-            />
-            <button onClick={handlePlayPause}>
-              {isPlaying ? (
-                <Pause
-                  className=" active:scale-90 transition h-4 sm:h-5"
-                  weight="fill"
-                />
-              ) : (
-                <Play className="active:scale-90 transition" weight="fill" />
-              )}
-            </button>
-            <SkipForward
-              className="active:scale-90 transition h-3 sm:h-4"
-              onClick={() => nextTrack()}
-              weight="fill"
-            />
-          </div>
-
-          <AnimatePresence mode="popLayout">
-            {isExpanded && (
-              <motion.div
-                className="hidden sm:flex items-center justify-center gap-2 text-zinc-300"
-                variants={controlsVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                layout
-              >
-                <SkipBack
-                  size={16}
-                  className="hover:scale-110 hover:text-zinc-100 transition duration-200"
-                  onClick={previousTrack}
-                  weight="fill"
-                />
-                <button onClick={handlePlayPause}>
-                  {isPlaying ? (
-                    <Pause
-                      size={24}
-                      className="hover:scale-110 hover:text-zinc-100 transition duration-200"
-                      weight="fill"
-                    />
-                  ) : (
-                    <Play
-                      size={24}
-                      className="hover:scale-110 hover:text-zinc-100 transition duration-200"
-                      weight="fill"
-                    />
-                  )}
-                </button>
-                <SkipForward
-                  size={20}
-                  className="hover:scale-110 hover:text-zinc-100 transition duration-200"
-                  onClick={() => nextTrack()}
-                  weight="fill"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
-    </div>
+        )}
+      </AnimatePresence>
+    </MotionConfig>
   );
 }

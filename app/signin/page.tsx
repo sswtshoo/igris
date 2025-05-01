@@ -31,7 +31,7 @@ function SignInContent() {
 
   return (
     <div className="flex flex-col gap-4 items-center">
-      <h1 className="text-2xl sm:text-3xl font-medium text-center text-zinc-50">
+      <h1 className="text-2xl sm:text-3xl font-medium text-center text-zinc-800">
         Igris for Spotify
       </h1>
       {error && (
@@ -40,20 +40,24 @@ function SignInContent() {
         </div>
       )}
       <motion.button
-        onClick={() => signIn('spotify', { callbackUrl: '/songs' })}
+        onClick={() => {
+          setTimeout(() => {
+            signIn('spotify', { callbackUrl: 'http://127.0.0.1:3000/songs' });
+          }, 100);
+        }}
         initial={{
-          backgroundColor: 'rgb(17, 17, 16)',
-          color: 'rgb(255, 255, 255)',
+          backgroundColor: 'rgb(250, 250, 250)',
+          color: 'rgb(50, 51, 51)',
         }}
         whileHover={{
-          backgroundColor: 'rgb(34, 34, 33)',
+          backgroundColor: 'rgb(255, 255, 255)',
           scale: 1,
         }}
         whileTap={{
           scale: 0.95,
         }}
         transition={{ duration: 0.15, ease: 'easeInOut' }}
-        className="border-[1px] border-zinc-400 text-light border-opacity-10 text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
+        className="border-[1px] border-zinc-600/10 text-light text-sm p-2 rounded-md shadow-sm font-[450] transition-colors"
       >
         Sign in with Spotify
       </motion.button>
@@ -90,7 +94,7 @@ function SignInContent() {
 
 export default function SignInPage() {
   return (
-    <div className="p-4 flex items-center justify-center h-screen bg-dark">
+    <div className="p-4 flex items-center justify-center h-screen">
       <Suspense fallback={<Loader />}>
         <SignInContent />
       </Suspense>
