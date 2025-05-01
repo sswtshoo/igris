@@ -179,26 +179,32 @@ export function Landing() {
   }
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center bg-dark">
+    <main className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="text-center">
-        <h1 className="text-xl sm:text-xl lg:text-2xl font-medium mb-2 text-light">
+        <h1 className="text-xl sm:text-xl lg:text-2xl font-medium mb-2 text-darker">
           Igris - Your Liked and Top Played Tracks
         </h1>
         <motion.button
-          onClick={() => signIn('spotify', { callbackUrl: '/songs' })}
+          onClick={() => {
+            setTimeout(() => {
+              signIn('spotify', {
+                callbackUrl: window.location.origin + '/songs',
+              });
+            }, 100);
+          }}
           initial={{
-            backgroundColor: 'rgb(17, 17, 16)',
-            color: 'rgb(255, 255, 255)',
+            backgroundColor: 'rgb(250, 250, 250)',
+            color: 'rgb(50, 51, 51)',
           }}
           whileHover={{
-            backgroundColor: 'rgb(34, 34, 33)',
+            backgroundColor: 'rgb(255, 255, 255)',
             scale: 1,
           }}
           whileTap={{
             scale: 0.95,
           }}
           transition={{ duration: 0.15, ease: 'easeInOut' }}
-          className="border-[1px] border-zinc-400 text-light border-opacity-10 text-sm p-2 rounded-md shadow-md font-[450] transition-colors"
+          className="border-[1px] border-zinc-600/10 text-light text-sm p-2 rounded-md shadow-sm font-[450] transition-colors"
         >
           Sign in with Spotify
         </motion.button>

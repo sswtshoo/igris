@@ -14,11 +14,12 @@ body {
 
 @layer base {
   :root {
-    --color-dark: rgb(17, 17, 16);
+    --color-dark: rgb(72, 72, 72);
     --color-light: rgb(250, 250, 250);
     --color-hover: rgb(50, 51, 51);
     --color-text-light: rgb(129, 129, 129);
     --color-darker: rgb(0, 0, 1);
+    --color-button: rgb(247, 244, 244);
     font-family: 'Inter', sans-serif;
   }
 }
@@ -50,4 +51,50 @@ html.lenis {
 
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/* .wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin: 0 auto;
+} */
+
+/* .list {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 8px;
+}
+
+.list-overlay {
+  background: var(--color-light);
+} */
+
+/* .button {
+  display: flex;
+  height: 34px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0px;
+  padding: 16px;
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: var(--color-light);
+  text-decoration: none;
+} */
+
+/* .button.button-overlay {
+  color: var(--color-darker);
+} */
+
+.clip-path-container {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+  transition: clip-path 0.25s cubic-bezier(0.17, 0.84, 0.44, 1);
+  clip-path: inset(0px 75% 0px 0% round 17px);
 }
