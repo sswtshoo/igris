@@ -143,33 +143,31 @@ export function Landing() {
   );
   if (session) {
     return (
-      <main className="flex h-screen bg-dark flex-col items-center justify-center">
+      <main className="flex h-screen flex-col items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-zinc-800"></h1>
           <p className="mb-4">You are logged in as {session.user?.name}</p>
           <motion.button
+            onClick={() => {
+              setTimeout(() => {
+                signIn('spotify', {
+                  callbackUrl: window.location.origin + '/songs',
+                });
+              }, 100);
+            }}
             initial={{
-              backgroundColor: 'rgb(255, 255, 255)',
-              color: 'rgb(24, 24, 27)',
+              backgroundColor: 'rgb(250, 250, 250)',
+              color: 'rgb(50, 51, 51)',
             }}
             whileHover={{
-              backgroundColor: 'rgb(24, 24, 27)',
-              color: 'rgb(228, 228, 231)',
-              scale: 1.05,
+              backgroundColor: 'rgb(255, 255, 255)',
+              scale: 1,
             }}
             whileTap={{
-              backgroundColor: 'rgb(24, 24, 27)',
-              color: 'rgb(228, 228, 231)',
               scale: 0.95,
-              rotate: '5deg',
             }}
-            transition={{
-              duration: 0.1,
-              type: 'spring',
-              stiffness: 300,
-              damping: 20,
-            }}
-            className="border border-black/5 px-4 py-2 bg-zinc-900 rounded-sm font-[450] shadow-md"
+            transition={{ duration: 0.15, ease: 'easeInOut' }}
+            className="border-[1px] border-zinc-600/10 text-light text-sm p-2 rounded-md shadow-sm font-[450] transition-colors"
           >
             <Link href={'/songs'}>Go to songs</Link>
           </motion.button>
