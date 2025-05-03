@@ -69,25 +69,6 @@ function SongsContent() {
     }
   }, [error]);
 
-  if (!session) {
-    return (
-      <div className="h-full w-full flex flex-col justify-center items-center">
-        <p className="text-red-500">Session invalid!</p>
-        <button
-          onClick={() => {
-            setTimeout(() => {
-              signIn('spotify', {
-                callbackUrl: window.location.origin + '/songs',
-              });
-            }, 100);
-          }}
-        >
-          Sign In
-        </button>
-      </div>
-    );
-  }
-
   if (isLoading)
     return (
       <div className="h-full z-50">

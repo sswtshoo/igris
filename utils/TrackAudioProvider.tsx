@@ -257,6 +257,7 @@ export const TrackAudioProvider = ({
       console.error('Error going to previous track:', error);
     }
   }, [session?.accessToken]);
+
   const seek = useCallback(
     async (position: number) => {
       if (!player) return;
