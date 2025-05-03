@@ -1,8 +1,5 @@
 Igris is a sleek music player web app built with Next.js, React, and TypeScript. It display your liked and top played songs.
 
-![Liked Songs](https://ibb.co/4gf8Hb3k)
-![Expanded Player](https://ibb.co/LdjCXc5Z)
-
 ## Technologies Used
 
 Next.js
