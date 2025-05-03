@@ -15,7 +15,7 @@ interface Track {
     spotify: string;
   };
   uri: string;
-  duration: string;
+  duration_ms: number;
 }
 
 interface Artist {

@@ -3,21 +3,28 @@
 import { useTrackAudio } from '@/utils/TrackAudioProvider';
 import { Play, Pause, SkipForward, SkipBack } from '@phosphor-icons/react';
 import { motion, AnimatePresence, MotionConfig } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { prominent } from 'color.js';
+import { useMediaQuery } from '@/utils/useMediaQuery';
+
+const formatTime = (ms: number) => {
+  if (!ms || isNaN(ms)) return '0:00';
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
 
 export default function Player() {
   const {
     currentSong,
     isPlaying,
-
     pauseTrack,
     playTrack,
-
+    seek,
     nextTrack,
     previousTrack,
+    trackProgress,
   } = useTrackAudio();
 
   const [isClicked, setIsClicked] = useState(false);
@@ -26,12 +33,29 @@ export default function Player() {
     'rgba(255, 255, 255, 0.6)'
   );
 
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  // console.log('is mobile', isMobile);
+
+  const progressRef = useRef<HTMLDivElement>(null);
+  const progressPercentage = currentSong?.duration_ms
+    ? (trackProgress / currentSong.duration_ms) * 100
+    : 0;
+
   const handlePlayPause = () => {
     if (isPlaying) {
       pauseTrack();
     } else {
       playTrack();
     }
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!progressRef.current || !currentSong?.duration_ms) return;
+
+    const rect = progressRef.current.getBoundingClientRect();
+    const position = (e.clientX - rect.left) / rect.width;
+    const seekPosition = Math.floor(position * currentSong.duration_ms);
+    seek(seekPosition);
   };
 
   useEffect(() => {
@@ -55,12 +79,6 @@ export default function Player() {
   useEffect(() => {
     if (currentSong?.album.images[0]?.url) {
       extractDominantColor(currentSong.album.images[0].url);
-    }
-  }, [currentSong]);
-
-  useEffect(() => {
-    if (currentSong?.album.images[0]?.url) {
-      extractDominantColor(currentSong?.album.images[0].url);
     }
   }, [currentSong]);
 
@@ -98,7 +116,7 @@ export default function Player() {
       const rgbaColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
 
       setDominantColor(rgbaColor);
-      console.log('Extracted color:', rgbaColor);
+      // console.log('Extracted color:', rgbaColor);
     } catch (error) {
       console.error('Error extracting color:', error);
     }
@@ -115,7 +133,7 @@ export default function Player() {
           <div className="fixed bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 z-20">
             <div className="px-3 py-6">
               <motion.div
-                className="backdrop-blur-2xl shadow-2xl rounded-lg flex flex-row items-center justify-center gap-4 p-2 relative overflow-hidden bg-opacity-10"
+                className="backdrop-blur-2xl shadow-2xl rounded-lg flex flex-row items-center justify-between gap-2 p-2 relative overflow-hidden bg-opacity-10 w-full max-w-md"
                 style={{
                   backgroundImage: `url(${currentSong.album.images[0]?.url})`,
                   backgroundSize: 'cover',
@@ -133,7 +151,7 @@ export default function Player() {
                   layoutId="black-overlay"
                 />
                 <motion.div
-                  className="flex items-center gap-x-2 min-w-0"
+                  className="flex items-center gap-x-2 min-w-0 flex-1"
                   layout
                 >
                   <motion.div
@@ -143,17 +161,17 @@ export default function Player() {
                     <motion.img
                       src={currentSong.album.images[0]?.url}
                       alt={currentSong.name}
-                      className="sm:h-14 sm:w-14 w-8 h-8 aspect-square mr-0 object-cover rounded-[4px]"
-                      onClick={() => setIsClicked(true)}
+                      className="sm:h-14 sm:w-14 w-10 h-10 aspect-square mr-0 object-cover rounded-[4px]"
+                      onClick={() => !isMobile && setIsClicked(true)}
                     />
                   </motion.div>
 
                   <motion.div
-                    className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink-0 max-w-40 sm:max-w-72 md:max-w-96 z-10"
+                    className="track-details flex flex-col items-start justify-center gap-y-0.5 min-w-0 flex-shrink flex-grow max-w-52 sm:max-w-60 md:max-w-72 z-10"
                     layout
                   >
                     <motion.p
-                      className="text-sm font-bold text-zinc-50 w-full drop-shadow-2xl overflow-hidden text-ellipsis whitespace-nowrap"
+                      className="text-sm font-medium sm:font-bold text-zinc-50 w-full drop-shadow-2xl overflow-hidden text-ellipsis whitespace-nowrap"
                       layoutId="currentsong"
                     >
                       {currentSong.name}
@@ -170,7 +188,7 @@ export default function Player() {
                   </motion.div>
                 </motion.div>
 
-                <div className="flex items-center justify-center gap-2 text-zinc-50 z-10">
+                <div className="flex items-center justify-end gap-1 sm:gap-2 text-zinc-50 z-10 flex-shrink-0">
                   <motion.div layoutId="skipback">
                     <SkipBack
                       className="active:scale-90 transition"
@@ -268,6 +286,29 @@ export default function Player() {
                       .join(', ')}
                   </motion.p>
                 </motion.div>
+                <div className="flex items-center w-full px-2 gap-0 z-10">
+                  <span className="text-xs text-zinc-50 font-medium flex-shrink-0 min-w-[40px] text-center">
+                    {formatTime(trackProgress)}
+                  </span>
+                  <div
+                    ref={progressRef}
+                    onClick={handleProgressClick}
+                    className="relative grow h-2 group cursor-pointer"
+                  >
+                    <div className="absolute h-1 w-full bg-zinc-400/50 rounded-full top-1/2 -translate-y-1/2">
+                      <div
+                        className="absolute h-full bg-zinc-50 rounded-full transition-all duration-150"
+                        style={{
+                          width: `${Math.min(progressPercentage + 1, 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <span className="text-xs text-zinc-50 font-medium flex-shrink-0 min-w-[40px] text-center">
+                    {formatTime(currentSong.duration_ms)}
+                  </span>
+                </div>
+
                 <div className="flex items-center justify-center gap-8 text-zinc-50 mt-2 mb-4 z-10">
                   <motion.button layoutId="skipback" onClick={previousTrack}>
                     <SkipBack weight="fill" size={24} />
