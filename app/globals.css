@@ -4,13 +4,14 @@
 
 html,
 body {
-  height: auto;
-  min-height: 100vh;
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
-  padding-bottom: env(safe-area-inset-bottom);
+  background-color: var(--color-light);
   font-optical-sizing: auto;
   overflow-y: auto;
+  overscroll-behavior: none;
 }
 
 @layer base {

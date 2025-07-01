@@ -13,6 +13,7 @@ export default {
         light: 'var(--color-light)',
         darkhover: 'var(--color-darkhover)',
         darker: 'var(--color-darker)',
+        lighter: 'var(--color-light)',
         textlight: 'var(--color-text-light)',
       },
     },

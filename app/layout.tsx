@@ -1,12 +1,22 @@
-import type { Metadata } from 'next';
-import { Providers } from '@/components/Providers';
-import './globals.css';
-import Navbar from '@/components/Navbar';
-import Player from '@/components/Player';
+import type { Metadata } from "next";
+import { Providers } from "@/components/Providers";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Player from "@/components/Player";
 
 export const metadata: Metadata = {
-  title: 'igris',
-  description: 'igris player for Spotify',
+  title: "Igris",
+  description: "...",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    viewportFit: "cover",
+  },
 };
 
 export default async function RootLayout({
@@ -17,10 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
+        
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
@@ -28,10 +35,10 @@ export default async function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning className="bg-lighter">
+      <body suppressHydrationWarning>
         <Providers>
           <Navbar />
-          <main className="min-h-[100dvh]">{children}</main>
+          <main className="min-h-screen">{children}</main>
           <Player />
         </Providers>
       </body>
