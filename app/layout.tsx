@@ -27,7 +27,7 @@ export default async function RootLayout({
       <body suppressHydrationWarning className="bg-lighter">
         <Providers>
           <Navbar />
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-[100dvh]">{children}</main>
           <Player />
         </Providers>
       </body>
