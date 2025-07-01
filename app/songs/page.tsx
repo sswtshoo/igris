@@ -1,30 +1,29 @@
-'use client';
+"use client";
 
-import { type Track } from '@/types/spotify';
-import { useEffect, useState } from 'react';
-import Loader from '@/components/ui/loader';
-import { useTrackAudio } from '@/utils/TrackAudioProvider';
-import { motion } from 'motion/react';
-import { Suspense } from 'react';
-import Lenis from 'lenis';
-import { Play } from '@phosphor-icons/react';
-import Image from 'next/image';
-import { useSpotifyData } from '@/utils/SpotifyDataProvider';
-import { useSession, signIn } from 'next-auth/react';
+import { type Track } from "@/types/spotify";
+import { useEffect, useState } from "react";
+import Loader from "@/components/ui/loader";
+import { useTrackAudio } from "@/utils/TrackAudioProvider";
+import { motion } from "motion/react";
+import { Suspense } from "react";
+import Lenis from "lenis";
+import { Play } from "@phosphor-icons/react";
+import Image from "next/image";
+import { useSpotifyData } from "@/utils/SpotifyDataProvider";
+import { useSession, signIn } from "next-auth/react";
 
 function SongsContent() {
   const { allTracks, isLoading, error } = useSpotifyData();
   const { playTrack, pauseTrack, currentSong, isPlaying } = useTrackAudio();
-  const [loadedImages, setLoadedImages] = useState(new Set());
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const lenis = new Lenis({
       duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      orientation: "vertical",
+      gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 2,
@@ -47,14 +46,6 @@ function SongsContent() {
     required: true,
   });
 
-  const handleImageLoad = (songId: string) => {
-    setLoadedImages((prev) => {
-      const newSet = new Set(prev);
-      newSet.add(songId);
-      return newSet;
-    });
-  };
-
   const handlePlay = (track: Track) => {
     if (currentSong?.id === track.id && isPlaying) {
       pauseTrack();
@@ -65,7 +56,7 @@ function SongsContent() {
 
   useEffect(() => {
     if (error) {
-      console.error('Error fetching songs', error);
+      console.error("Error fetching songs", error);
     }
   }, [error]);
 
@@ -79,7 +70,7 @@ function SongsContent() {
     return (
       <div className="p-6 flex h-screen flex-col w-full items-center justify-center text-center">
         <p className="text-red-500 mb-2 text-lg">
-          {error.message || 'Error loading songs'}
+          {error.message || "Error loading songs"}
         </p>
         <button
           onClick={() => window.location.reload()}
@@ -104,16 +95,16 @@ function SongsContent() {
               initial={{
                 opacity: 0,
                 y: 20,
-                filter: 'blur(5px)',
+                filter: "blur(5px)",
               }}
               animate={{
                 opacity: 1,
                 y: 0,
-                filter: 'blur(0px)',
+                filter: "blur(0px)",
               }}
               transition={{
                 duration: 0.5,
-                type: 'spring',
+                type: "spring",
                 bounce: 0,
                 delay: baseDelay,
               }}
@@ -130,7 +121,6 @@ function SongsContent() {
                         sizes="(max-width: 640px) 160px, 240px"
                         className="object-cover absolute inset-0 border rounded-xl shadow-md group-hover:opacity-80 border-zinc-300/25 transition-opacity duration-300"
                         loading="eager"
-                        onLoad={() => handleImageLoad(song.id)}
                       />
                     </div>
                     <div className="absolute opacity-0 p-3 rounded-full backdrop-blur-xl inset-0 place-self-center bg-zinc-950/80 bg-opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 transition duration-300 z-50">
@@ -153,7 +143,7 @@ function SongsContent() {
                     </h2>
                   </div>
                   <p className="text-[0.6rem] text-zinc-500 font-normal truncate">
-                    {song.artists.map((artist) => artist.name).join(', ')}
+                    {song.artists.map((artist) => artist.name).join(", ")}
                   </p>
                 </motion.div>
               </div>

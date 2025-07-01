@@ -1,8 +1,8 @@
-import { NextAuthOptions, DefaultSession } from 'next-auth';
-import SpotifyProvider from 'next-auth/providers/spotify';
-import { scopes, refreshAccessToken } from '@/spotify';
+import { NextAuthOptions, DefaultSession, DefaultUser } from "next-auth";
+import SpotifyProvider from "next-auth/providers/spotify";
+import { scopes, refreshAccessToken } from "@/spotify";
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session extends DefaultSession {
     accessToken?: string;
     refreshToken?: string;
@@ -11,11 +11,13 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
+declare module "next-auth/jwt" {
   interface JWT {
     accessToken?: string;
     refreshToken?: string;
     expiresAt?: number;
+    user?: DefaultUser;
+    error?: any;
   }
 }
 
@@ -26,7 +28,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
       authorization: {
         params: {
-          scope: scopes.join(' '),
+          scope: scopes.join(" "),
           show_dialog: true,
         },
       },
@@ -37,40 +39,37 @@ export const authOptions: NextAuthOptions = {
       name: `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
       },
     },
     callbackUrl: {
       name: `next-auth.callback-url`,
       options: {
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
       },
     },
     csrfToken: {
       name: `next-auth.csrf-token`,
       options: {
         httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
       },
     },
   },
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        return {
-          ...token,
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-          accessTokenExpires: account.expires_at
-            ? account.expires_at * 1000
-            : 0,
-        };
+    async jwt({ token, user, account }) {
+      if (account && user) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+        token.expiresAt = (account.expires_at ?? 0) * 1000;
+        token.user = user;
+        return token;
       }
 
       if (token.expiresAt && Date.now() < token.expiresAt) {
@@ -89,7 +88,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
     async redirect({ url, baseUrl }) {
-      if (url.startsWith('/')) {
+      if (url.startsWith("/")) {
         return `${baseUrl}${url}`;
       } else if (new URL(url).origin === baseUrl) {
         return url;
@@ -98,11 +97,11 @@ export const authOptions: NextAuthOptions = {
     },
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/signin',
+    signIn: "/signin",
   },
 };

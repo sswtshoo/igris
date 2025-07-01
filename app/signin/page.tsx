@@ -41,9 +41,7 @@ function SignInContent() {
       )}
       <motion.button
         onClick={() => {
-          setTimeout(() => {
-            signIn('spotify', { callbackUrl: 'http://127.0.0.1:3000/songs' });
-          }, 100);
+          signIn('spotify', { callbackUrl: '/songs' });
         }}
         initial={{
           backgroundColor: 'rgb(250, 250, 250)',
